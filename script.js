@@ -5,10 +5,19 @@ const dateResult = document.getElementById("dateResult");
 const continueBtn = document.getElementById("continueBtn");
 
 // -----------------
-// Keep choice persistent with localStorage
+// Restore state on page load
 // -----------------
 window.addEventListener("DOMContentLoaded", () => {
+  const savedScreen = localStorage.getItem("currentScreen");
   const savedChoice = localStorage.getItem("valentineChoice");
+
+  if (savedScreen) {
+    current = parseInt(savedScreen);
+  }
+
+  showScreen(current);
+
+  // If already picked a date, restore date result
   if (savedChoice) {
     dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
     continueBtn.style.display = "inline-block";
@@ -16,10 +25,21 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// -----------------
+// Screen navigation
+// -----------------
 function nextScreen() {
   screens[current].classList.remove("active");
   current++;
-  screens[current].classList.add("active");
+  if(current >= screens.length) current = screens.length - 1;
+  showScreen(current);
+  localStorage.setItem("currentScreen", current);
+}
+
+function showScreen(index) {
+  screens.forEach((screen, i) => {
+    screen.classList.toggle("active", i === index);
+  });
 }
 
 // -----------------
@@ -36,28 +56,27 @@ movingHeart.addEventListener("mouseover", () => {
 
 movingHeart.addEventListener("click", () => {
   catchText.textContent = "Okay okay 😌 you caught me.";
-  setTimeout(nextScreen, 1000);
+  setTimeout(() => {
+    nextScreen();
+  }, 1000);
 });
 
 // -----------------
-// Pick date surprise with 3D effect
+// Pick date surprise
 // -----------------
 function pickDate(box, btn) {
-  // Prevent picking again if already chosen
   if (localStorage.getItem("valentineChoice")) return;
 
-  // Save choice
   localStorage.setItem("valentineChoice", box);
 
-  // Animate the button to "open" (3D flip)
+  // 3D flip effect
   btn.style.transition = "transform 0.6s";
   btn.style.transform = "rotateX(180deg)";
 
-  // After 0.6s, reveal the resort surprise
   setTimeout(() => {
     dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
     btn.style.transform = "scale(1.1) rotateX(0deg)";
-    continueBtn.style.display = "inline-block"; // show Continue button
+    continueBtn.style.display = "inline-block";
     disableBoxes();
   }, 600);
 }

@@ -98,7 +98,7 @@ button:hover {
   padding: 15px;
   border-radius: 15px;
   transition: transform 0.2s, background 0.2s;
-  perspective: 600px; /* allow 3D effect */
+  perspective: 600px;
 }
 
 .box:hover {
@@ -113,7 +113,7 @@ button:hover {
 #dateResult {
   font-size: 16px;
   margin-top: 15px;
-  min-height: 24px; /* keeps layout stable when text changes */
+  min-height: 24px;
 }
 
 /* ----------------------------
