@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   let current = 0;
-  let lastPopup = null;
   const screens = document.querySelectorAll(".screen");
 
   const startBtn = document.getElementById("startBtn");
@@ -44,9 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
     current++;
     screens[current].classList.add("active");
     localStorage.setItem("currentScreen", current);
+
+    // If memory game screen, start sequence
+    if(screens[current].querySelector("#memorySequence")) startMemoryGame();
   }
 
-  [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, secretContinueBtn].forEach(btn=>{
+  [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, secretContinueBtn, memoryContinueBtn].forEach(btn=>{
     if(btn) btn.addEventListener("click", nextScreen);
   });
 
@@ -129,4 +131,66 @@ document.addEventListener("DOMContentLoaded", () => {
       conf.addEventListener("animationend",()=>conf.remove());
     }
   }
+
+  // ------------------- MEMORY GAME -------------------
+  const memorySequenceDiv = document.getElementById("memorySequence");
+  const memoryButtonsDiv = document.getElementById("memoryButtons");
+  const memoryResult = document.getElementById("memoryResult");
+
+  let sequence = [];
+  let userSequence = [];
+  const emojis = ["🍎","🍌","🍒","🍇","🍉","🥝"];
+
+  function startMemoryGame() {
+    sequence = [];
+    userSequence = [];
+    memoryResult.textContent="";
+    memoryButtonsDiv.innerHTML="";
+
+    // Generate random sequence of 4 emojis
+    for(let i=0;i<4;i++){
+      sequence.push(emojis[Math.floor(Math.random()*emojis.length)]);
+    }
+
+    // Show sequence for 2 seconds each emoji
+    memorySequenceDiv.textContent="";
+    let i = 0;
+    const interval = setInterval(()=>{
+      memorySequenceDiv.textContent = sequence[i];
+      i++;
+      if(i>=sequence.length){
+        clearInterval(interval);
+        memorySequenceDiv.textContent="❓"; // hide after showing
+        createMemoryButtons();
+      }
+    }, 1000);
+  }
+
+  function createMemoryButtons(){
+    memoryButtonsDiv.innerHTML="";
+    const shuffled = [...emojis].sort(()=>0.5-Math.random());
+    shuffled.forEach(e=>{
+      const btn = document.createElement("button");
+      btn.textContent=e;
+      btn.style.fontSize="30px";
+      btn.addEventListener("click",()=> handleMemoryClick(e));
+      memoryButtonsDiv.appendChild(btn);
+    });
+  }
+
+  function handleMemoryClick(e){
+    userSequence.push(e);
+    // show current user input
+    memorySequenceDiv.textContent = userSequence.join(" ");
+    if(userSequence.length===sequence.length){
+      if(userSequence.join("")===sequence.join("")){
+        memoryResult.textContent="🎉 Correct! Well done!";
+        memoryContinueBtn.style.display="inline-block";
+      }else{
+        memoryResult.textContent="❌ Wrong! Try again.";
+        userSequence = [];
+      }
+    }
+  }
+
 });
