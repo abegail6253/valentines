@@ -20,12 +20,14 @@
     <h2>Catch the heart 😌</h2>
     <div id="movingHeart">❤️</div>
     <p id="catchText"></p>
+    <button id="heartContinueBtn" onclick="nextScreen()" style="display:none;">Continue</button>
   </div>
 
   <!-- SCREEN 3 -->
   <div class="screen">
     <h2>Pick our date 💕</h2>
-    <p>Choose a gift ❤️</p>
+    <p>Choose a gift ❤️ <span id="giftWarning">(Only one choice allowed!)</span></p>
+    <p id="baitMessage">Psst… try other gifts if you dare 😉</p>
 
     <div class="choices">
       <button class="box" onclick="pickDate(0, this)">🎁</button>

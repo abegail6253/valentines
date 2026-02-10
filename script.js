@@ -4,6 +4,9 @@ const boxes = document.querySelectorAll(".box");
 const dateResult = document.getElementById("dateResult");
 const continueBtn = document.getElementById("continueBtn");
 const popupSound = document.getElementById("popupSound");
+const heartContinueBtn = document.getElementById("heartContinueBtn");
+const movingHeart = document.getElementById("movingHeart");
+const catchText = document.getElementById("catchText");
 
 // -----------------
 // Restore state on page load
@@ -42,9 +45,6 @@ function nextScreen() {
 // -----------------
 // Catch the heart (Screen 2)
 // -----------------
-const movingHeart = document.getElementById("movingHeart");
-const catchText = document.getElementById("catchText");
-
 movingHeart.addEventListener("mouseover", () => {
   const x = Math.random() * 300 - 150; 
   const y = Math.random() * 300 - 150;
@@ -53,16 +53,16 @@ movingHeart.addEventListener("mouseover", () => {
 
 movingHeart.addEventListener("click", () => {
   catchText.textContent = "Okay okay 😌 you caught me.";
-  setTimeout(() => nextScreen(), 500);
+  heartContinueBtn.style.display = "inline-block"; // Show continue button
 });
 
 // -----------------
-// Pick gift box (Screen 3) with funny popup, shake & sound
+// Pick gift box (Screen 3)
 // -----------------
 function pickDate(index, btn) {
   const savedChoice = localStorage.getItem("valentineChoice");
 
-  // If a choice already exists
+  // Already picked
   if (savedChoice !== null) {
     if (parseInt(savedChoice) !== index) {
       showFunnyPopup();
@@ -70,7 +70,7 @@ function pickDate(index, btn) {
       popupSound.currentTime = 0;
       popupSound.play();
     }
-    return; // Prevent selecting another box
+    return;
   }
 
   // First choice
