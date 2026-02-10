@@ -361,3 +361,13 @@ body.gradient-sunset {
   50% { transform: translate(-50%, 20px) scale(1.1); opacity: 1; }
   100% { transform: translate(-50%, 0px) scale(1); opacity: 1; }
 }
+
+.star-msg {
+  font-size: 16px;
+  color: #ff4d6d;
+  font-weight: bold;
+  text-align: center;
+  pointer-events: none;
+  z-index: 5000;
+  transition: top 0.5s ease, opacity 0.5s ease;
+}
