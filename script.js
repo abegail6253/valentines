@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const movingHeart = document.getElementById("movingHeart");
   const catchText = document.getElementById("catchText");
 
-  const popupSound = document.getElementById("popupSound");
-  const confettiSound = document.getElementById("confettiSound");
-  const yesSound = document.getElementById("yesSound");
+  const popupSound = document.getElementById("popupSound");  // WRONG gift
+  const confettiSound = document.getElementById("confettiSound"); // YES
+  const yesSound = document.getElementById("yesSound"); // YES
   const confettiContainer = document.getElementById("confettiContainer");
 
   const startBtn = document.getElementById("startBtn");
@@ -63,21 +63,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (catchText.textContent === "Okay okay 😌 you caught me.") return;
     const parent = movingHeart.parentElement.getBoundingClientRect();
     const heartSize = movingHeart.getBoundingClientRect();
-    const maxX = parent.width - heartSize.width;
-    const maxY = parent.height - heartSize.height;
     movingHeart.style.position = "absolute";
-    movingHeart.style.left = Math.random() * maxX + "px";
-    movingHeart.style.top = Math.random() * maxY + "px";
+    movingHeart.style.left = Math.random() * (parent.width - heartSize.width) + "px";
+    movingHeart.style.top = Math.random() * (parent.height - heartSize.height) + "px";
   });
 
   movingHeart.addEventListener("click", () => {
     if (catchText.textContent === "Okay okay 😌 you caught me.") return;
     catchText.textContent = "Okay okay 😌 you caught me.";
     heartContinueBtn.style.display = "inline-block";
-  });
-
-  movingHeart.addEventListener("keydown", e => {
-    if (e.key === "Enter" || e.key === " ") movingHeart.click();
   });
 
   // Pick gift box
@@ -94,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showFunnyPopup();
         shakeBox(btn);
         popupSound.currentTime=0;
-        popupSound.play();
+        popupSound.play();  // ONLY for wrong gift
       }
       return;
     }
@@ -133,26 +127,24 @@ document.addEventListener("DOMContentLoaded", () => {
   // Avoid No button
   noBtn.addEventListener("mouseover", () => {
     const parent=noBtn.parentElement.getBoundingClientRect();
-    const maxX=parent.width-noBtn.offsetWidth;
-    const maxY=parent.height-noBtn.offsetHeight;
     noBtn.style.position="absolute";
-    noBtn.style.left=Math.random()*maxX+"px";
-    noBtn.style.top=Math.random()*maxY+"px";
+    noBtn.style.left=Math.random()*(parent.width-noBtn.offsetWidth)+"px";
+    noBtn.style.top=Math.random()*(parent.height-noBtn.offsetHeight)+"px";
   });
 
   // Yes button
   yesBtn.addEventListener("click", ()=>{
     document.getElementById("finalText").textContent="Yay! Counting down to Valentine’s Day with you ❤️";
 
-    // Play distinct Yes audio
+    // Play Yes sounds (ONLY yesSound + confettiSound)
     yesSound.currentTime=0;
     yesSound.play().catch(e=>console.log("Yes sound blocked:",e));
-
-    // Confetti and music
     confettiSound.currentTime=0;
     confettiSound.play().catch(e=>console.log("Confetti blocked:",e));
+
     music.currentTime=0;
     music.play().catch(e=>console.log("Music blocked:",e));
+
     startConfetti();
 
     // Show couple bear GIF
