@@ -57,36 +57,40 @@ document.addEventListener("DOMContentLoaded", () => {
   const starContinueBtn = document.getElementById("starContinueBtn");
 
   stars.forEach(star => {
-    star.addEventListener("click", () => {
-      // Remove previous message
-      const prevMsg = document.querySelector(".star-msg");
-      if(prevMsg) prevMsg.remove();
+  star.addEventListener("click", () => {
+    // Remove previous message
+    const prevMsg = document.querySelector(".star-msg");
+    if(prevMsg) prevMsg.remove();
 
-      // Create new message div
-      const msgDiv = document.createElement("div");
-      msgDiv.className = "star-msg";
-      msgDiv.textContent = star.dataset.fortune;
+    // Create new message div
+    const msgDiv = document.createElement("div");
+    msgDiv.className = "star-msg";
+    msgDiv.textContent = star.dataset.fortune;
 
-      // Append to body and position above the star
-      const rect = star.getBoundingClientRect();
-      msgDiv.style.left = rect.left + rect.width/2 + "px";
-      msgDiv.style.top = rect.top - 60 + "px";
+    // Style message above star without blocking clicks
+    const rect = star.getBoundingClientRect();
+    msgDiv.style.position = "absolute";
+    msgDiv.style.left = rect.left + rect.width/2 + "px";
+    msgDiv.style.top = rect.top - 60 + "px";
+    msgDiv.style.transform = "translateX(-50%)";
+    msgDiv.style.pointerEvents = "none";
 
-      document.body.appendChild(msgDiv);
+    document.body.appendChild(msgDiv);
 
-      // Animate tiny hearts around star
-      createTinyFloatingHearts(star, 5, 20);
+    // Animate tiny hearts around star
+    createTinyFloatingHearts(star, 5, 20);
 
-      // Make star twinkle
-      star.classList.add("twinkle");
+    // Make star twinkle
+    star.classList.add("twinkle");
 
-      // Show continue button
-      starContinueBtn.style.display = "inline-block";
+    // Show continue button
+    starContinueBtn.style.display = "inline-block";
 
-      // Remove message after a few seconds
-      setTimeout(() => msgDiv.remove(), 4000);
-    });
+    // Remove message after a few seconds
+    setTimeout(() => msgDiv.remove(), 4000);
   });
+});
+
 
   starContinueBtn?.addEventListener("click", nextScreen);
 
