@@ -8,6 +8,7 @@ body {
   align-items: center;
   height: 100vh;
   overflow: hidden;
+  transition: background 1s ease;
 }
 
 .screen {
@@ -20,10 +21,16 @@ body {
   text-align: center;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   position: relative;
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
-.screen.active { display: block; }
+.screen.active { display: block; opacity: 1; }
 
+.screen.fade-in { opacity: 1; }
+.screen.fade-out { opacity: 0; }
+
+/* ---------- Buttons ---------- */
 button {
   padding: 10px 20px;
   border: none;
@@ -31,7 +38,8 @@ button {
   margin-top: 15px;
   font-size: 16px;
   cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
+  transition: transform 0.2s, background 0.2s, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 button:hover { transform: scale(1.05); }
@@ -42,8 +50,19 @@ button:hover { transform: scale(1.05); }
   transition: transform 0.1s;
 }
 
-.yes { background: #ff4d6d; color: white; }
+.yes { background: #ff4d6d; color: white; box-shadow: 0 0 10px #ff99b3; }
 .no { background: #ccc; transition: transform 0.01s; }
+
+/* Pulse animation for Yes button */
+.pulse {
+  animation: pulseBtn 0.6s ease forwards;
+}
+
+@keyframes pulseBtn {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
 
 /* ---------- Gift Boxes ---------- */
 .box {
@@ -62,34 +81,15 @@ button:hover { transform: scale(1.05); }
   cursor: pointer;
 }
 
-.box:hover { 
-  transform: scale(1.1); 
-  background: #ff99b3; 
-}
-
-.box.selected { 
-  border: 3px solid #ff4d6d; 
-}
-
-/* ---------- Box Flip & Scale Animation ---------- */
-.box.flip {
-  transform: rotateX(180deg);
-  transition: transform 0.6s;
-}
-
-.box.correct {
-  transform: scale(1.1) rotateX(0deg);
-}
+.box:hover { transform: scale(1.1); background: #ff99b3; }
+.box.selected { border: 3px solid #ff4d6d; }
+.box.flip { transform: rotateX(180deg); transition: transform 0.6s; }
+.box.correct { transform: scale(1.1) rotateX(0deg); }
 
 /* ---------- Text & Labels ---------- */
 #dateResult { font-size: 16px; margin-top: 15px; min-height: 24px; }
 #continueBtn, #heartContinueBtn { margin-top: 20px; background: #ff4d6d; color: white; }
 #finalText { margin-top: 20px; font-size: 18px; font-weight: bold; color: #ff4d6d; }
-
-ul { text-align: left; margin: 10px auto; max-width: 300px; }
-
-#giftWarning { color: red; font-weight: bold; }
-#baitMessage { font-size: 14px; color: #ff4d6d; }
 
 /* ---------- Popups ---------- */
 .funny-popup {
@@ -162,6 +162,27 @@ ul { text-align: left; margin: 10px auto; max-width: 300px; }
   100% { transform: translateY(100vh) rotate(360deg); }
 }
 
+/* ---------- Floating Hearts / Stars ---------- */
+.floatingHeart, .floatingStar, .tiny-heart {
+  position: absolute;
+  font-size: 20px;
+  pointer-events: none;
+  animation: floatUp 3s ease-in forwards;
+  color: #ff4d6d;
+}
+
+@keyframes floatUp {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-150px) scale(1.3); }
+}
+
+/* Heart explosions */
+.floatingHeart {
+  font-size: 24px;
+  animation-duration: 2s;
+  color: #ff4d6d;
+}
+
 /* ---------- Bear & Kiss Animations ---------- */
 #valentineBearContainer img {
   animation: floatBear 2s ease-in-out infinite;
@@ -182,13 +203,6 @@ ul { text-align: left; margin: 10px auto; max-width: 300px; }
 }
 
 /* ---------- Secret Hearts ---------- */
-#secretHearts {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
 .secretHeart {
   font-size: 40px;
   cursor: pointer;
@@ -228,83 +242,7 @@ ul { text-align: left; margin: 10px auto; max-width: 300px; }
 
 #quizContinueBtn:hover { transform: scale(1.05); background: #ff99b3; }
 
-/* ---------- Memory Game ---------- */
-#memorySequence { font-size: 50px; margin-bottom: 15px; min-height: 60px; }
-
-#memoryButtons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-#memoryButtons button {
-  font-size: 30px;
-  padding: 10px 15px;
-  border-radius: 15px;
-  border: none;
-  background: #ffe0e6;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
-}
-
-#memoryButtons button:hover { transform: scale(1.1); background: #ffccd5; }
-
-#memoryResult { margin-top: 15px; font-weight: bold; color: #ff4d6d; }
-
-/* ---------- Floating Hearts / Stars ---------- */
-.floatingHeart, .floatingStar {
-  position: absolute;
-  font-size: 20px;
-  pointer-events: none;
-  animation: floatUp 3s ease-in forwards;
-  color: #ff4d6d;
-}
-
-@keyframes floatUp {
-  0% { opacity: 1; transform: translateY(0) scale(1); }
-  100% { opacity: 0; transform: translateY(-150px) scale(1.3); }
-}
-
-/* ---------- Bonus / Memory Photos / Calendar ---------- */
-#photoMemoryContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-#photoMemoryContainer img {
-  width: 80px;
-  height: 80px;
-  border-radius: 10px;
-  object-fit: cover;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-#photoMemoryContainer img:hover { transform: scale(1.1); }
-
-#futurePromiseCalendar {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-top: 20px;
-}
-
-#futurePromiseCalendar div {
-  background: #ffccd5;
-  padding: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.2s;
-  text-align: center;
-}
-
-#futurePromiseCalendar div:hover { transform: scale(1.1); background: #ff99b3; }
-
-/* ---------- Countdown Animation ---------- */
+/* ---------- Countdown ---------- */
 #countdownNumber {
   color: #ff4d6d;
   font-weight: bold;
@@ -317,3 +255,74 @@ ul { text-align: left; margin: 10px auto; max-width: 300px; }
   100% { transform: scale(1); opacity: 1; }
 }
 
+/* ---------- Love Note ---------- */
+.love-note {
+  position: fixed;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,204,213,0.9);
+  padding: 20px 30px;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff1a6b;
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 3000;
+}
+
+.love-note.visible { opacity: 1; }
+
+/* ---------- Emoji Animations ---------- */
+.emoji {
+  position: absolute;
+  font-size: 24px;
+  animation: floatUp 3s ease-in forwards;
+}
+
+/* ---------- Extra: Optional Sunset Gradient Animation ---------- */
+body.gradient-sunset {
+  animation: sunset 5s infinite alternate;
+}
+
+@keyframes sunset {
+  0% { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+  50% { background: linear-gradient(135deg, #ffb3c1, #ffcc99); }
+  100% { background: linear-gradient(135deg, #ffa87d, #ff9a9e); }
+}
+
+/* ---------- Floating Rose Petals ---------- */
+.rose-petal {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: radial-gradient(circle at 50% 50%, #ff4d6d 0%, #ff99b3 100%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  pointer-events: none;
+  opacity: 0.9;
+  animation-name: driftPetal;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes driftPetal {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg) scale(0.8);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(25vh) translateX(10px) rotate(15deg) scale(0.9);
+  }
+  50% {
+    transform: translateY(50vh) translateX(-10px) rotate(-10deg) scale(1);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translateY(75vh) translateX(15px) rotate(20deg) scale(0.9);
+  }
+  100% {
+    transform: translateY(100vh) translateX(0) rotate(360deg) scale(0.8);
+    opacity: 0;
+  }
+}
