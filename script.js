@@ -54,11 +54,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ------------------ PICK A STAR / LOVE FORTUNE ------------------
 const stars = document.querySelectorAll(".star");
+const starFortune = document.getElementById("starFortune"); // display area
 const starContinueBtn = document.getElementById("starContinueBtn");
 
 stars.forEach(star => {
   star.addEventListener("click", () => {
-    // Create a message div
+    // Display the fortune message in the paragraph
+    if(starFortune) starFortune.textContent = star.dataset.fortune;
+
+    // Create a floating message div above the star
     const msgDiv = document.createElement("div");
     msgDiv.className = "star-msg";
     msgDiv.textContent = star.dataset.fortune;
@@ -77,11 +81,11 @@ stars.forEach(star => {
     let pos = -20;
     let opacity = 0;
     const drop = setInterval(() => {
-      pos += 2;       // move down 2px per tick
-      opacity += 0.05; // fade in
+      pos += 2;
+      opacity += 0.05;
       msgDiv.style.top = rect.top - bodyRect.top + pos + "px";
       msgDiv.style.opacity = opacity;
-      if (opacity >= 1) clearInterval(drop);
+      if(opacity >= 1) clearInterval(drop);
     }, 20);
 
     // Make tiny hearts float up
@@ -95,6 +99,7 @@ stars.forEach(star => {
     starContinueBtn.style.display = "inline-block";
   });
 });
+
 
 
   starContinueBtn?.addEventListener("click", nextScreen);
