@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.style.transition = "transform 0.6s";
     btn.style.transform = "rotateX(180deg)";
     setTimeout(() => {
-      dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
+      dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort on Feb 14! ❤️`;
       btn.style.transform = "scale(1.1) rotateX(0deg)";
       continueBtn.style.display = "inline-block";
     }, 600);
