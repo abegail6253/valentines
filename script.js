@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const outfitContinueBtn = document.getElementById("outfitContinueBtn");
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
+  const valentineText = document.getElementById("valentineText");
 
   const girlBear = document.getElementById("girlBear");
   const kissGifContainer = document.getElementById("kissGifContainer");
@@ -100,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "Hey! That’s not your box 😉",
       "Hmm… trying to cheat? 😏",
       "Nope! You already picked your favorite ❤️",
-      "Nice try, Dadecakes 😜",
+      "Nice try 😜",
       "Stick with your choice, it’s perfect! 😘"
     ];
     let msg;
@@ -129,7 +130,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Yes button click
   yesBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    finalText.textContent = "Yay! Counting down to Valentine’s Day with you ❤️";
+
+    // Change the h2 text to the new message
+    valentineText.textContent = "I knew you’d say yes! 😘";
 
     // Play yesClickSound
     yesClickSound.currentTime = 0;
@@ -144,6 +147,9 @@ document.addEventListener("DOMContentLoaded", () => {
       <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGs5aG51a3FiaHM3MnBwcjZ6NnJrdm5yOGR0NHB1aHo1ZjM2bGlmbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/L2CGLm2BRDOXCe1uKz/giphy.gif"
            alt="Bear couple kissing" style="width:300px; border-radius:10px;">
     `;
+
+    // Keep finalText
+    finalText.textContent = "Yay! Counting down to Valentine’s Day with you ❤️";
   });
 
   function startConfetti(){
