@@ -227,11 +227,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const countdownEl = document.getElementById("countdownNumber");
     if (!countdownEl) return;
     let count = 5;
-    countdownEl.textContent = `Counting… ${count} seconds until I see you ❤️`;
+    countdownEl.textContent = `Counting… ${count} seconds until the next surprise 😏`;
 
     const timer = setInterval(() => {
       count--;
-      countdownEl.textContent = `Counting… ${count} seconds until I see you ❤️`;
+      countdownEl.textContent = `Counting… ${count} seconds until the next surprise 😏`;
       body.style.background = `linear-gradient(120deg, #ff9ccf ${count*20}%, #ffa87d 100%)`;
       if (count === 0) {
         clearInterval(timer);
