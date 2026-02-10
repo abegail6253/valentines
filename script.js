@@ -25,20 +25,22 @@ movingHeart.addEventListener("click", () => {
 });
 
 // -----------------
-// Pick date surprise (all options go to Almeja Azul Lyr Beach Resort)
+// Pick date surprise with 3D effect
 // -----------------
-function pickDate(box) {
+function pickDate(box, btn) {
   const dateResult = document.getElementById("dateResult");
   const continueBtn = document.getElementById("continueBtn");
 
-  // Show a little “opening” animation
-  dateResult.textContent = `Opening ${box}... 😌`;
+  // Animate the button to "open" (3D flip)
+  btn.style.transition = "transform 0.6s";
+  btn.style.transform = "rotateX(180deg)";
 
-  // After 1 second, reveal the surprise
+  // After 0.6s, reveal the resort surprise
   setTimeout(() => {
     dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
+    btn.style.transform = "scale(1.1) rotateX(0deg)"; // optional: keep it slightly larger
     continueBtn.style.display = "inline-block"; // show Continue button
-  }, 1000);
+  }, 600);
 }
 
 // -----------------

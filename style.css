@@ -98,6 +98,7 @@ button:hover {
   padding: 15px;
   border-radius: 15px;
   transition: transform 0.2s, background 0.2s;
+  perspective: 600px; /* allow 3D effect */
 }
 
 .box:hover {
