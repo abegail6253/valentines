@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You ❤️</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- SCREEN 1 -->
+  <div class="screen active">
+    <h1>Hi ❤️</h1>
+    <p>Tap the hearts</p>
+
+    <div class="hearts">
+      <span class="heart">❤️</span>
+      <span class="heart">❤️</span>
+      <span class="heart">❤️</span>
+    </div>
+
+    <button onclick="nextScreen()">Continue</button>
+  </div>
+
+  <!-- SCREEN 2 -->
+  <div class="screen">
+    <h2>Catch the heart 😌</h2>
+    <div id="movingHeart">❤️</div>
+    <p id="catchText"></p>
+  </div>
+
+  <!-- SCREEN 3 -->
+  <div class="screen">
+    <h2>Pick our date 💕</h2>
+
+    <div class="choices">
+      <button onclick="pickDate('Coffee ☕')">Coffee ☕</button>
+      <button onclick="pickDate('Beach 🌊')">Beach 🌊</button>
+      <button onclick="pickDate('Movie 🎬')">Movie 🎬</button>
+    </div>
+
+    <p id="dateResult"></p>
+    <button onclick="nextScreen()">Continue</button>
+  </div>
+
+  <!-- SCREEN 4 -->
+  <div class="screen">
+    <h1>So… ❤️</h1>
+    <h2>Will you be my Valentine?</h2>
+
+    <button class="yes" onclick="yes()">Yes 💕</button>
+    <button class="no" onmouseover="moveNo(this)">No 🙃</button>
+
+    <p id="finalText"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
