@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const movingHeart = document.getElementById("movingHeart");
   const catchText = document.getElementById("catchText");
 
-  const popupSound = document.getElementById("popupSound"); // WRONG gift
-  const yesSound = document.getElementById("yesSound"); // YES button click
-  const confettiSound = document.getElementById("confettiSound"); // cheer
+  const popupSound = document.getElementById("popupSound"); // Wrong gift
+  const yesSound = document.getElementById("yesSound");     // Yes button
+  const confettiSound = document.getElementById("confettiSound"); // Confetti
   const confettiContainer = document.getElementById("confettiContainer");
 
   const startBtn = document.getElementById("startBtn");
@@ -23,10 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const girlBear = document.getElementById("girlBear");
   const kissGifContainer = document.getElementById("kissGifContainer");
   const finalText = document.getElementById("finalText");
-
-  // Background music
-  const music = new Audio("https://incompetech.filmmusic.io/song/3471-carefree.mp3");
-  music.loop = true;
 
   // Restore state
   const savedScreen = localStorage.getItem("currentScreen");
@@ -85,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showFunnyPopup();
         shakeBox(btn);
         popupSound.currentTime = 0;
-        popupSound.play(); // WRONG gift only
+        popupSound.play(); // ONLY wrong gift
       }
       return;
     }
@@ -130,21 +126,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Yes button click
-  yesBtn.addEventListener("click", async ()=>{
+  yesBtn.addEventListener("click", ()=>{
     finalText.textContent="Yay! Counting down to Valentine’s Day with you ❤️";
 
+    // Play yes sound
+    yesSound.pause();
     yesSound.currentTime=0;
+    yesSound.play().catch(e=>console.log("Yes sound blocked:",e));
+
+    // Play confetti sound after 100ms
+    confettiSound.pause();
     confettiSound.currentTime=0;
-
-    // Play Yes sound first
-    await yesSound.play().catch(e=>console.log("Yes sound blocked:",e));
-
-    // Play confetti after tiny delay
-    setTimeout(()=>{ confettiSound.play().catch(e=>console.log("Confetti blocked",e)); }, 100);
-
-    // Background music
-    music.currentTime=0;
-    music.play().catch(e=>console.log("Music blocked",e));
+    setTimeout(()=>confettiSound.play().catch(e=>console.log("Confetti blocked:",e)),100);
 
     startConfetti();
 
