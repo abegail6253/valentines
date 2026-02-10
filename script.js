@@ -11,14 +11,21 @@ window.addEventListener("DOMContentLoaded", () => {
   const savedScreen = localStorage.getItem("currentScreen");
   const savedChoice = localStorage.getItem("valentineChoice");
 
-  if (savedScreen) {
+  // Validate savedScreen
+  if (savedScreen && !isNaN(savedScreen) && savedScreen < screens.length) {
     current = parseInt(savedScreen);
+  } else {
+    current = 0;
   }
 
-  showScreen(current);
+  // Hide all screens first
+  screens.forEach(screen => screen.classList.remove("active"));
+
+  // Show the correct screen
+  screens[current].classList.add("active");
 
   // If already picked a date, restore date result
-  if (savedChoice) {
+  if (savedChoice && current === 2) {
     dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
     continueBtn.style.display = "inline-block";
     disableBoxes();
@@ -31,15 +38,9 @@ window.addEventListener("DOMContentLoaded", () => {
 function nextScreen() {
   screens[current].classList.remove("active");
   current++;
-  if(current >= screens.length) current = screens.length - 1;
-  showScreen(current);
+  if (current >= screens.length) current = screens.length - 1;
+  screens[current].classList.add("active");
   localStorage.setItem("currentScreen", current);
-}
-
-function showScreen(index) {
-  screens.forEach((screen, i) => {
-    screen.classList.toggle("active", i === index);
-  });
 }
 
 // -----------------
