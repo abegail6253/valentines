@@ -30,11 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const secretHearts = document.querySelectorAll(".secretHeart");
   const heartMsg = document.getElementById("heartMsg");
 
-  const memorySequenceDiv = document.getElementById("memorySequence");
-  const memoryButtonsDiv = document.getElementById("memoryButtons");
-  const memoryResult = document.getElementById("memoryResult");
-  const memoryContinueBtn = document.getElementById("memoryContinueBtn");
-
   // ------------------ RESTORE STATE ------------------
   const savedScreen = localStorage.getItem("currentScreen");
   const savedChoice = localStorage.getItem("valentineChoice");
@@ -56,11 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
     screens[current].classList.add("active");
     localStorage.setItem("currentScreen", current);
 
-    if (screens[current].querySelector("#memorySequence")) startMemoryGame();
     if (screens[current].querySelector("#countdownNumber")) startCountdown();
   }
 
-  [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, secretContinueBtn, memoryContinueBtn]
+  [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, secretContinueBtn]
     .forEach(btn => { if (btn) btn.addEventListener("click", nextScreen); });
 
   // ------------------ HEART CATCH ------------------
@@ -82,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ------------------ GIFT BOXES ------------------
-  const correctGiftIndex = 0; // correct box index
+  const correctGiftIndex = 0;
 
   boxes.forEach(box => {
     box.addEventListener("click", () => pickDate(parseInt(box.dataset.index), box));
@@ -186,75 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
       conf.style.backgroundColor=`hsl(${Math.random()*360},70%,60%)`;
       confettiContainer.appendChild(conf);
       conf.addEventListener("animationend",()=>conf.remove());
-    }
-  }
-
-  // ------------------ MEMORY GAME ------------------
-  let sequence = [];
-  let userSequence = [];
-  const emojis = ["❤️","💌","🥰","🌹","💖","💋"];
-  const loveNotes = [
-    "You remembered my ❤️! So sweet 🥰",
-    "Perfect! Our love is in sync 💖",
-    "Amazing! Just like us 💌",
-    "You got it! My heart melts 🥰"
-  ];
-
-  function startMemoryGame(){
-    sequence = [];
-    userSequence = [];
-    memoryResult.textContent="";
-    memoryButtonsDiv.innerHTML="";
-
-    const chosenEmojis = [...emojis].sort(()=>0.5-Math.random()).slice(0,3);
-    sequence = chosenEmojis;
-
-    memorySequenceDiv.textContent="";
-    let i = 0;
-
-    function flashEmoji(){
-      if(i >= sequence.length){
-        memorySequenceDiv.textContent="❓";
-        setTimeout(createMemoryButtons, 500);
-        return;
-      }
-      memorySequenceDiv.style.opacity = "0";
-      memorySequenceDiv.textContent = sequence[i];
-      setTimeout(()=>{ memorySequenceDiv.style.opacity="1"; }, 100);
-      setTimeout(()=>{
-        memorySequenceDiv.style.opacity="0";
-        i++;
-        setTimeout(flashEmoji, 300);
-      }, 700);
-    }
-    flashEmoji();
-  }
-
-  function createMemoryButtons(){
-    memoryButtonsDiv.innerHTML="";
-    const shuffled = [...sequence].sort(()=>0.5-Math.random());
-    shuffled.forEach(e=>{
-      const btn=document.createElement("button");
-      btn.textContent=e;
-      btn.style.fontSize="30px";
-      btn.addEventListener("click",()=> handleMemoryClick(e));
-      memoryButtonsDiv.appendChild(btn);
-    });
-  }
-
-  function handleMemoryClick(e){
-    userSequence.push(e);
-    memorySequenceDiv.textContent = userSequence.join(" ");
-    if(userSequence.length===sequence.length){
-      if(userSequence.join("")===sequence.join("")){
-        memoryResult.textContent = loveNotes[Math.floor(Math.random()*loveNotes.length)];
-        memoryContinueBtn.style.display="inline-block";
-        setTimeout(nextScreen, 2000);
-      } else {
-        memoryResult.textContent = "❌ Wrong! Try again 💌";
-        userSequence = [];
-        memorySequenceDiv.textContent="❓";
-      }
     }
   }
 
