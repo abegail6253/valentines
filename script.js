@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   let current = 0;
+  let lastPopup = null;
+  const correctGiftIndex = 0; // Only this box is correct
+
   const screens = document.querySelectorAll(".screen");
 
   const startBtn = document.getElementById("startBtn");
@@ -36,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const quizWrongSound = document.getElementById("quizWrongSound");
   const confettiContainer = document.getElementById("confettiContainer");
 
-  // Navigation
+  // ------------------ NAVIGATION ------------------
   function nextScreen() {
     if(current >= screens.length -1) return;
     screens[current].classList.remove("active");
@@ -50,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, secretContinueBtn, memoryContinueBtn]
   .forEach(btn => { if(btn) btn.addEventListener("click", nextScreen); });
 
-  // Heart Catch
+  // ------------------ HEART CATCH ------------------
   movingHeart?.addEventListener("mouseover", () => {
     if(catchText.textContent) return;
     const parent = movingHeart.parentElement.getBoundingClientRect();
@@ -68,20 +71,61 @@ document.addEventListener("DOMContentLoaded", () => {
     startConfetti();
   });
 
-  // Gift Boxes
+  // ------------------ GIFT BOXES ------------------
   boxes.forEach(box=>{
     box.addEventListener("click",()=>pickDate(parseInt(box.dataset.index),box));
+    box.addEventListener("keydown", e => { if(e.key==="Enter" || e.key===" ") pickDate(parseInt(box.dataset.index),box); });
     box.setAttribute("tabindex","0");
   });
 
   function pickDate(index, btn){
+    if(index !== correctGiftIndex){
+      showFunnyPopup();
+      shakeBox(btn);
+      wrongGiftSound.currentTime = 0;
+      wrongGiftSound.play();
+      return;
+    }
+
     boxes.forEach(b=>b.classList.remove("selected"));
     btn.classList.add("selected");
-    dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
-    continueBtn.style.display="inline-block";
+    btn.style.transition = "transform 0.6s";
+    btn.style.transform = "rotateX(180deg)";
+
+    setTimeout(()=>{
+      dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
+      btn.style.transform = "scale(1.1) rotateX(0deg)";
+      continueBtn.style.display="inline-block";
+    },600);
   }
 
-  // Quiz
+  function showFunnyPopup(){
+    const messages = [
+      "Hey! That’s not your box 😉",
+      "Hmm… trying to cheat? 😏",
+      "Nope! You already picked your favorite ❤️",
+      "Nice try 😜",
+      "Stick with your choice, it’s perfect! 😘"
+    ];
+    let msg;
+    do { msg = messages[Math.floor(Math.random()*messages.length)]; } while(msg===lastPopup);
+    lastPopup=msg;
+    const popup=document.createElement("div");
+    popup.textContent=msg;
+    popup.className="funny-popup";
+    document.body.appendChild(popup);
+    setTimeout(()=>{
+      popup.classList.add("fade-out");
+      popup.addEventListener("animationend",()=>popup.remove());
+    },2000);
+  }
+
+  function shakeBox(btn){
+    btn.classList.add("shake");
+    setTimeout(()=>btn.classList.remove("shake"),600);
+  }
+
+  // ------------------ QUIZ ------------------
   quizBtns.forEach(btn=>{
     btn.addEventListener("click",()=>{
       if(btn.dataset.answer==="correct"){
@@ -95,12 +139,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Secret Hearts
+  // ------------------ SECRET HEARTS ------------------
   secretHearts.forEach(h=>{
     h.addEventListener("mouseover",()=>heartMsg.textContent=h.dataset.msg);
   });
 
-  // No button hover
+  // ------------------ NO BUTTON ------------------
   noBtn?.addEventListener("mouseover",()=>{
     const parent=noBtn.parentElement.getBoundingClientRect();
     noBtn.style.position="absolute";
@@ -108,9 +152,10 @@ document.addEventListener("DOMContentLoaded", () => {
     noBtn.style.top=Math.random()*(parent.height-noBtn.offsetHeight)+"px";
   });
 
-  // Yes button
+  // ------------------ YES BUTTON ------------------
   yesBtn?.addEventListener("click",()=>{
     valentineText.textContent="I knew you’d say yes! 😘";
+    yesClickSound.currentTime=0;
     yesClickSound.play().catch(()=>{});
     startConfetti();
     girlBear.style.display="none";
@@ -118,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     finalText.textContent="Yay! Counting down to Valentine’s Day with you ❤️";
   });
 
-  // Confetti
+  // ------------------ CONFETTI ------------------
   function startConfetti(){
     for(let i=0;i<100;i++){
       const conf=document.createElement("div");
@@ -131,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ------------------- ROMANTIC MEMORY GAME -------------------
+  // ------------------ ROMANTIC MEMORY GAME ------------------
   const memorySequenceDiv = document.getElementById("memorySequence");
   const memoryButtonsDiv = document.getElementById("memoryButtons");
   const memoryResult = document.getElementById("memoryResult");
@@ -166,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
         memorySequenceDiv.textContent="❓";
         createMemoryButtons();
       }
-    }, 1000);
+    },1000);
   }
 
   function createMemoryButtons(){
