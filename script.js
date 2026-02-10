@@ -11,19 +11,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const catchText = document.getElementById("catchText");
   const catchGifContainer = document.getElementById("catchGifContainer");
 
-  const wrongGiftSound = document.getElementById("wrongGiftSound");
-  const yesClickSound = document.getElementById("yesClickSound");
-  const confettiContainer = document.getElementById("confettiContainer");
-
   const startBtn = document.getElementById("startBtn");
   const outfitContinueBtn = document.getElementById("outfitContinueBtn");
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
   const valentineText = document.getElementById("valentineText");
-
   const girlBear = document.getElementById("girlBear");
   const kissGifContainer = document.getElementById("kissGifContainer");
   const finalText = document.getElementById("finalText");
+
+  const wrongGiftSound = document.getElementById("wrongGiftSound");
+  const yesClickSound = document.getElementById("yesClickSound");
+  const quizCorrectSound = document.getElementById("quizCorrectSound");
+  const quizWrongSound = document.getElementById("quizWrongSound");
+  const confettiContainer = document.getElementById("confettiContainer");
+
+  const quizBtns = document.querySelectorAll(".quizBtn");
+  const quizResult = document.getElementById("quizResult");
+  const quizContinueBtn = document.getElementById("quizContinueBtn");
+
+  const secretHearts = document.querySelectorAll(".secretHeart");
+  const heartMsg = document.getElementById("heartMsg");
+  const secretContinueBtn = document.getElementById("secretContinueBtn");
 
   // Restore state
   const savedScreen = localStorage.getItem("currentScreen");
@@ -52,6 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
   heartContinueBtn.addEventListener("click", nextScreen);
   continueBtn.addEventListener("click", nextScreen);
   outfitContinueBtn.addEventListener("click", nextScreen);
+  quizContinueBtn.addEventListener("click", nextScreen);
+  secretContinueBtn.addEventListener("click", nextScreen);
 
   // Heart catch
   movingHeart.addEventListener("mouseover", () => {
@@ -68,17 +79,14 @@ document.addEventListener("DOMContentLoaded", () => {
     catchText.textContent = "Okay okay 😌 you caught me.";
     heartContinueBtn.style.display = "inline-block";
 
-    // Show heart catch GIF
     catchGifContainer.innerHTML = `
       <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExenp4MDczdDFrZXRxbWV3NjhvN2oxcHl5cW1kcjlpcGZkMmpnZ3N1YiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/oJQjQgACNyHgxXmMTi/giphy.gif"
            alt="Caught heart GIF" style="width:250px; border-radius:10px;">
     `;
-
-    // Optional: Confetti for heart catch
     startConfetti();
   });
 
-  // Pick gift box
+  // Gift boxes
   boxes.forEach(box => {
     box.addEventListener("click", () => pickDate(parseInt(box.dataset.index), box));
     box.addEventListener("keydown", e => { if(e.key==="Enter" || e.key===" ") pickDate(parseInt(box.dataset.index), box); });
@@ -137,31 +145,43 @@ document.addEventListener("DOMContentLoaded", () => {
     noBtn.style.top = Math.random() * (parent.height - noBtn.offsetHeight) + "px";
   });
 
-  // Yes button click
+  // Yes button
   yesBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-
-    // Change the h2 text to the new message
     valentineText.textContent = "I knew you’d say yes! 😘";
-
-    // Play yesClickSound
     yesClickSound.currentTime = 0;
     yesClickSound.play().catch(err => console.log("Yes sound blocked:", err));
-
-    // Confetti effect
     startConfetti();
-
-    // Show couple bear GIF
     girlBear.style.display = "none";
     kissGifContainer.innerHTML = `
       <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGs5aG51a3FiaHM3MnBwcjZ6NnJrdm5yOGR0NHB1aHo1ZjM2bGlmbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/L2CGLm2BRDOXCe1uKz/giphy.gif"
            alt="Bear couple kissing" style="width:300px; border-radius:10px;">
     `;
-
-    // Keep finalText
     finalText.textContent = "Yay! Counting down to Valentine’s Day with you ❤️";
   });
 
+  // Quiz buttons
+  quizBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      if(btn.dataset.answer === "correct"){
+        quizResult.textContent = "Correct! 🍦 You know me well 😘";
+        quizCorrectSound.play();
+        quizContinueBtn.style.display = "inline-block";
+      } else {
+        quizResult.textContent = "Oops! Wrong answer 😅 Try again.";
+        quizWrongSound.play();
+      }
+    });
+  });
+
+  // Secret hearts
+  secretHearts.forEach(h => {
+    h.addEventListener("mouseover", () => {
+      heartMsg.textContent = h.dataset.msg;
+    });
+  });
+
+  // Confetti
   function startConfetti(){
     for(let i=0;i<100;i++){
       const confetti = document.createElement("div");

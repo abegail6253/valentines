@@ -15,7 +15,7 @@
     <button id="startBtn">Continue</button>
   </div>
 
-  <!-- SCREEN 2 -->
+  <!-- SCREEN 2: Catch the Heart -->
   <div class="screen">
     <h2>Catch the heart 😌</h2>
     <div id="movingHeart" tabindex="0">❤️</div>
@@ -24,7 +24,7 @@
     <button id="heartContinueBtn" style="display:none;">Continue</button>
   </div>
 
-  <!-- SCREEN 3 -->
+  <!-- SCREEN 3: Pick Our Date -->
   <div class="screen">
     <h2>Pick our date 💕</h2>
     <p>Choose a gift ❤️ <span id="giftWarning">(Only one choice allowed!)</span></p>
@@ -54,7 +54,33 @@
     <button id="outfitContinueBtn">Continue</button>
   </div>
 
-  <!-- SCREEN 4 -->
+  <!-- SCREEN 4: Surprise Quiz -->
+  <div class="screen">
+    <h2>Mini Quiz 😏</h2>
+    <p>How well do you know me? Answer correctly to unlock a surprise ❤️</p>
+    <div id="quizChoices">
+      <button class="quizBtn" data-answer="wrong">Pizza</button>
+      <button class="quizBtn" data-answer="correct">Ice Cream</button>
+      <button class="quizBtn" data-answer="wrong">Sushi</button>
+    </div>
+    <p id="quizResult"></p>
+    <button id="quizContinueBtn" style="display:none;">Continue</button>
+  </div>
+
+  <!-- SCREEN 5: Hidden Message -->
+  <div class="screen">
+    <h2>Secret Message 💌</h2>
+    <p>Hover over the hearts to reveal my little love notes for you:</p>
+    <div id="secretHearts">
+      <span class="secretHeart" data-msg="You make me smile every day 😘">❤️</span>
+      <span class="secretHeart" data-msg="Counting down to our next date 🥰">❤️</span>
+      <span class="secretHeart" data-msg="You’re my favorite human 😍">❤️</span>
+    </div>
+    <p id="heartMsg" style="margin-top:20px;"></p>
+    <button id="secretContinueBtn">Continue</button>
+  </div>
+
+  <!-- SCREEN 6: Valentine Proposal -->
   <div class="screen">
     <h1>So… ❤️</h1>
     <h2 id="valentineText">Will you be my Valentine?</h2>
@@ -76,6 +102,8 @@
   <!-- Sounds -->
   <audio id="wrongGiftSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
   <audio id="yesClickSound" src="https://orangefreesounds.com/wp-content/uploads/2025/08/Success-chime-sound-effect.mp3" preload="auto"></audio>
+  <audio id="quizCorrectSound" src="https://www.orangefreesounds.com/wp-content/uploads/2021/04/Correct-answer-ding-sound-effect.mp3" preload="auto"></audio>
+  <audio id="quizWrongSound" src="https://www.orangefreesounds.com/wp-content/uploads/2014/08/Wrong-answer-sound-effect.mp3" preload="auto"></audio>
 
   <!-- Confetti container -->
   <div id="confettiContainer"></div>
