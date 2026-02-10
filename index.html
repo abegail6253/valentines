@@ -12,15 +12,15 @@
   <div class="screen active">
     <h1>Hi Dadecakes ❤️</h1>
     <p>I’ve hidden some surprises just for you…<br>Tap Continue to find them!</p>
-    <button onclick="nextScreen()">Continue</button>
+    <button id="startBtn">Continue</button>
   </div>
 
   <!-- SCREEN 2 -->
   <div class="screen">
     <h2>Catch the heart 😌</h2>
-    <div id="movingHeart">❤️</div>
+    <div id="movingHeart" tabindex="0">❤️</div>
     <p id="catchText"></p>
-    <button id="heartContinueBtn" onclick="nextScreen()" style="display:none;">Continue</button>
+    <button id="heartContinueBtn" style="display:none;">Continue</button>
   </div>
 
   <!-- SCREEN 3 -->
@@ -30,13 +30,13 @@
     <p id="baitMessage">Psst… try other gifts if you dare 😉</p>
 
     <div class="choices">
-      <button class="box" onclick="pickDate(0, this)">🎁</button>
-      <button class="box" onclick="pickDate(1, this)">🎁</button>
-      <button class="box" onclick="pickDate(2, this)">🎁</button>
+      <button class="box" data-index="0">🎁</button>
+      <button class="box" data-index="1">🎁</button>
+      <button class="box" data-index="2">🎁</button>
     </div>
 
     <p id="dateResult"></p>
-    <button onclick="nextScreen()" style="display:none;" id="continueBtn">Continue</button>
+    <button id="continueBtn" style="display:none;">Continue</button>
   </div>
 
   <!-- SCREEN 3.5: Outfit Recommendation -->
@@ -50,7 +50,7 @@
       <li>Keep it breezy and comfortable for sunset and sand!</li>
     </ul>
     <p>Be ready by <strong>3 PM</strong> so we can enjoy the cocktails on time! 🕔</p>
-    <button onclick="nextScreen()">Continue</button>
+    <button id="outfitContinueBtn">Continue</button>
   </div>
 
   <!-- SCREEN 4 -->
@@ -58,17 +58,17 @@
     <h1>So… ❤️</h1>
     <h2>Will you be my Valentine, Dadecakes?</h2>
 
-    <button class="yes" onclick="yes()">Yes 💕</button>
-    <button class="no" onmouseover="moveNo(this)">No 🙃</button>
+    <button class="yes" id="yesBtn">Yes 💕</button>
+    <button class="no" id="noBtn">No 🙃</button>
 
     <p id="finalText"></p>
   </div>
 
-  <!-- Playful sounds -->
+  <!-- Sounds -->
   <audio id="popupSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
   <audio id="confettiSound" src="https://www.soundjay.com/misc/sounds/crowd-cheer-01.mp3" preload="auto"></audio>
 
-  <!-- Confetti container -->
+  <!-- Confetti -->
   <div id="confettiContainer"></div>
 
   <script src="script.js"></script>
