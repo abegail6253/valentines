@@ -166,10 +166,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   yesBtn.addEventListener("click", () => {
+    // Stop other sounds to prevent overlap
+    popupSound.pause();
+    popupSound.currentTime = 0;
+    confettiSound.pause();
+    confettiSound.currentTime = 0;
+
     document.getElementById("finalText").textContent =
       "Yay! Counting down to Valentine’s Day with you ❤️";
 
-    // Play cute Yes sound
+    // Play Yes sound
     yesSound.currentTime = 0;
     yesSound.play().catch(e => console.log("Yes sound blocked:", e));
 
@@ -182,10 +188,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     startConfetti();
 
-    // Replace girl bear with kissing bears GIF
+    // Replace girl bear with couple bear GIF
     girlBear.style.display = "none";
     kissGifContainer.innerHTML = `
-      <img src="https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif"
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGs5aG51a3FiaHM3MnBwcjZ6NnJrdm5yOGR0NHB1aHo1ZjM2bGlmbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/L2CGLm2BRDOXCe1uKz/giphy.gif"
            alt="Bear couple kissing" style="width:300px; border-radius:10px;">
     `;
   });
