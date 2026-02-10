@@ -20,6 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const noBtn = document.getElementById("noBtn");
 
   // -----------------
+  // Add music
+  // -----------------
+  const music = new Audio("https://incompetech.filmmusic.io/song/3471-carefree.mp3");
+  music.loop = true; // Loop the music
+
+  // -----------------
   // Restore state
   // -----------------
   const savedScreen = localStorage.getItem("currentScreen");
@@ -106,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showFunnyPopup();
         shakeBox(btn);
         popupSound.currentTime = 0;
-        popupSound.play().catch(e => console.log("Audio blocked:", e));
+        popupSound.play();
       }
       return;
     }
@@ -183,19 +189,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("finalText").textContent =
       "Yay! Counting down to Valentine’s Day with you ❤️";
 
-    // Safely play confetti sound on click
-    confettiSound.pause();
+    // Play confetti sound and background music
     confettiSound.currentTime = 0;
     confettiSound.muted = false;
+    confettiSound.play().catch(e => console.log("Confetti sound blocked:", e));
 
-    const playPromise = confettiSound.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // fallback if blocked: create a new Audio object
-        const tempAudio = new Audio(confettiSound.src);
-        tempAudio.play().catch(e => console.log("Audio blocked:", e));
-      });
-    }
+    music.currentTime = 0;
+    music.muted = false;
+    music.play().catch(e => console.log("Music play blocked:", e));
 
     startConfetti();
   });
