@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   screens[current].classList.add("active");
 
   if (savedChoice !== null) {
-    dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
+    dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort on Feb 14! ❤️`;
     continueBtn.style.display = "inline-block";
     boxes[savedChoice].classList.add("selected");
   }
