@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!note) return;
     loveNoteDisplay.textContent = `"${note}" ❤️`;
     fadeInText(loveNoteDisplay);
-    setTimeout(nextScreen, 2000); // go to next screen automatically
+    setTimeout(nextScreen, 2000);
   });
 
   function fadeInText(el) {
@@ -54,15 +54,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ------------------ PICK A STAR / LOVE FORTUNE ------------------
   const stars = document.querySelectorAll(".star");
-  const starFortune = document.getElementById("starFortune");
   const starContinueBtn = document.getElementById("starContinueBtn");
 
   stars.forEach(star => {
     star.addEventListener("click", () => {
-      starFortune.textContent = star.dataset.fortune;
+      // Remove previous message
+      const prevMsg = document.querySelector(".star-msg");
+      if(prevMsg) prevMsg.remove();
+
+      // Create new message div
+      const msgDiv = document.createElement("div");
+      msgDiv.className = "star-msg";
+      msgDiv.textContent = star.dataset.fortune;
+
+      // Append to body and position above the star
+      const rect = star.getBoundingClientRect();
+      msgDiv.style.left = rect.left + rect.width/2 + "px";
+      msgDiv.style.top = rect.top - 60 + "px";
+
+      document.body.appendChild(msgDiv);
+
+      // Animate tiny hearts around star
+      createTinyFloatingHearts(star, 5, 20);
+
+      // Make star twinkle
       star.classList.add("twinkle");
+
+      // Show continue button
       starContinueBtn.style.display = "inline-block";
-      createTinyFloatingHearts(star, 5, 15);
+
+      // Remove message after a few seconds
+      setTimeout(() => msgDiv.remove(), 4000);
     });
   });
 
@@ -101,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => screen.classList.remove("fade-in"), 500);
   }
 
-  [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, secretContinueBtn, starContinueBtn]
+  [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, starContinueBtn]
     .forEach(btn => { if (btn) btn.addEventListener("click", nextScreen); });
 
   // ------------------ HEART CATCH ------------------
@@ -198,11 +220,6 @@ document.addEventListener("DOMContentLoaded", () => {
     yesClickSound.play().catch(()=>{});
     girlBear.style.display = "none";
     kissGifContainer.innerHTML = `<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGs5aG51a3FiaHM3MnBwcjZ6NnJrdm5yOGR0NHB1aHo1ZjM2bGlmbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/L2CGLm2BRDOXCe1uKz/giphy.gif" style="width:300px;border-radius:10px;">`;
-
-    // Show your flying kiss GIF
-    const myFlyingKiss = document.getElementById("myFlyingKiss");
-    myFlyingKiss.style.display = "block";
-
     finalText.textContent = "Yay! Counting down to Valentine’s Day with you ❤️";
     startConfetti();
     startHeartExplosions();
