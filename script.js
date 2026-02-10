@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const heartContinueBtn = document.getElementById("heartContinueBtn");
   const movingHeart = document.getElementById("movingHeart");
   const catchText = document.getElementById("catchText");
+  const catchGifContainer = document.getElementById("catchGifContainer");
 
   const wrongGiftSound = document.getElementById("wrongGiftSound");
   const yesClickSound = document.getElementById("yesClickSound");
@@ -66,6 +67,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (catchText.textContent === "Okay okay 😌 you caught me.") return;
     catchText.textContent = "Okay okay 😌 you caught me.";
     heartContinueBtn.style.display = "inline-block";
+
+    // Show heart catch GIF
+    catchGifContainer.innerHTML = `
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExenp4MDczdDFrZXRxbWV3NjhvN2oxcHl5cW1kcjlpcGZkMmpnZ3N1YiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/oJQjQgACNyHgxXmMTi/giphy.gif"
+           alt="Caught heart GIF" style="width:250px; border-radius:10px;">
+    `;
+
+    // Optional: Confetti for heart catch
+    startConfetti();
   });
 
   // Pick gift box
