@@ -303,3 +303,17 @@ ul { text-align: left; margin: 10px auto; max-width: 300px; }
 }
 
 #futurePromiseCalendar div:hover { transform: scale(1.1); background: #ff99b3; }
+
+/* ---------- Countdown Animation ---------- */
+#countdownNumber {
+  color: #ff4d6d;
+  font-weight: bold;
+  animation: pop 1s infinite;
+}
+
+@keyframes pop {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+

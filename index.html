@@ -5,53 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>For You ❤️</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* Basic styles for box highlight and popup */
-    .box.selected {
-      border: 3px solid #ff4081;
-      background-color: #ffe6f0;
-    }
-
-    .funny-popup {
-      position: fixed;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fff0f5;
-      border: 2px solid #ff4081;
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-size: 16px;
-      z-index: 9999;
-      animation: popupIn 0.5s;
-    }
-
-    .funny-popup.fade-out {
-      animation: popupOut 0.5s forwards;
-    }
-
-    @keyframes popupIn {
-      from { opacity: 0; transform: translate(-50%, -10px); }
-      to { opacity: 1; transform: translate(-50%, 0); }
-    }
-
-    @keyframes popupOut {
-      from { opacity: 1; transform: translate(-50%, 0); }
-      to { opacity: 0; transform: translate(-50%, -10px); }
-    }
-
-    .shake {
-      animation: shakeAnim 0.5s;
-    }
-
-    @keyframes shakeAnim {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-5px); }
-      100% { transform: translateX(0); }
-    }
-  </style>
 </head>
 <body>
 
@@ -132,6 +85,13 @@
     <div id="memoryButtons" style="margin-bottom:15px;"></div>
     <p id="memoryResult"></p>
     <button id="memoryContinueBtn" style="display:none;">Continue</button>
+  </div>
+
+  <!-- SCREEN 6.5: Countdown -->
+  <div class="screen">
+    <h2>Counting down to your biggest surprise 😏…</h2>
+    <div id="countdownNumber" style="font-size:80px; margin:20px 0;">5</div>
+    <p>Get ready ❤️</p>
   </div>
 
   <!-- SCREEN 7: Valentine Proposal -->

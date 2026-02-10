@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("currentScreen", current);
 
     if (screens[current].querySelector("#memorySequence")) startMemoryGame();
+    if (screens[current].querySelector("#countdownNumber")) startCountdown();
   }
 
   [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, secretContinueBtn, memoryContinueBtn]
@@ -204,22 +205,29 @@ document.addEventListener("DOMContentLoaded", () => {
     userSequence = [];
     memoryResult.textContent="";
     memoryButtonsDiv.innerHTML="";
-    
-    // 3 emojis only
+
     const chosenEmojis = [...emojis].sort(()=>0.5-Math.random()).slice(0,3);
     sequence = chosenEmojis;
 
     memorySequenceDiv.textContent="";
-    let i=0;
-    const interval = setInterval(()=>{
-      memorySequenceDiv.textContent = sequence[i];
-      i++;
-      if(i>=sequence.length){
-        clearInterval(interval);
+    let i = 0;
+
+    function flashEmoji(){
+      if(i >= sequence.length){
         memorySequenceDiv.textContent="❓";
-        setTimeout(createMemoryButtons, 500); // small delay before buttons appear
+        setTimeout(createMemoryButtons, 500);
+        return;
       }
-    },1000);
+      memorySequenceDiv.style.opacity = "0";
+      memorySequenceDiv.textContent = sequence[i];
+      setTimeout(()=>{ memorySequenceDiv.style.opacity="1"; }, 100);
+      setTimeout(()=>{
+        memorySequenceDiv.style.opacity="0";
+        i++;
+        setTimeout(flashEmoji, 300);
+      }, 700);
+    }
+    flashEmoji();
   }
 
   function createMemoryButtons(){
@@ -241,7 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if(userSequence.join("")===sequence.join("")){
         memoryResult.textContent = loveNotes[Math.floor(Math.random()*loveNotes.length)];
         memoryContinueBtn.style.display="inline-block";
-        // automatic continue after 2 seconds
         setTimeout(nextScreen, 2000);
       } else {
         memoryResult.textContent = "❌ Wrong! Try again 💌";
@@ -249,5 +256,24 @@ document.addEventListener("DOMContentLoaded", () => {
         memorySequenceDiv.textContent="❓";
       }
     }
+  }
+
+  // ------------------ COUNTDOWN ------------------
+  function startCountdown() {
+    const countdownEl = document.getElementById("countdownNumber");
+    if (!countdownEl) return;
+
+    let count = 5;
+    countdownEl.textContent = count;
+
+    const timer = setInterval(() => {
+      count--;
+      countdownEl.textContent = count;
+
+      if (count === 0) {
+        clearInterval(timer);
+        setTimeout(nextScreen, 800); // go to Valentine screen
+      }
+    }, 1000);
   }
 });
