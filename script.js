@@ -100,5 +100,5 @@ function moveNo(btn) {
 
 function yes() {
   document.getElementById("finalText").textContent =
-    "Yay! Happy Valentine’s Day ❤️";
+    "Yay! Counting down to Valentine’s Day with you ❤️";
 }
