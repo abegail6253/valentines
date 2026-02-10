@@ -24,7 +24,6 @@ window.addEventListener("DOMContentLoaded", () => {
   if (savedChoice !== null) {
     dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
     continueBtn.style.display = "inline-block";
-    disableBoxes();
     boxes[savedChoice].classList.add("selected");
   }
 });
@@ -63,6 +62,7 @@ movingHeart.addEventListener("click", () => {
 function pickDate(index, btn) {
   const savedChoice = localStorage.getItem("valentineChoice");
 
+  // If a choice already exists
   if (savedChoice !== null) {
     if (parseInt(savedChoice) !== index) {
       showFunnyPopup();
@@ -70,11 +70,11 @@ function pickDate(index, btn) {
       popupSound.currentTime = 0;
       popupSound.play();
     }
-    return;
+    return; // Prevent selecting another box
   }
 
+  // First choice
   localStorage.setItem("valentineChoice", index);
-
   boxes.forEach(b => b.classList.remove("selected"));
   btn.classList.add("selected");
 
@@ -85,19 +85,7 @@ function pickDate(index, btn) {
     dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
     btn.style.transform = "scale(1.1) rotateX(0deg)";
     continueBtn.style.display = "inline-block";
-    disableBoxes();
   }, 600);
-}
-
-// -----------------
-// Disable boxes
-// -----------------
-function disableBoxes() {
-  boxes.forEach(b => {
-    b.disabled = true;
-    b.style.cursor = "not-allowed";
-    b.style.opacity = 0.6;
-  });
 }
 
 // -----------------
