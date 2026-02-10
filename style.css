@@ -162,7 +162,7 @@ button:hover { transform: scale(1.05); }
 }
 
 /* ---------- Floating Hearts / Stars ---------- */
-.floatingHeart, .floatingStar, .tiny-heart {
+.floatingHeart, .floatingStar, .tiny-heart, .emoji {
   position: absolute;
   font-size: 20px;
   pointer-events: none;
@@ -275,9 +275,7 @@ button:hover { transform: scale(1.05); }
 
 /* ---------- Emoji Animations ---------- */
 .emoji {
-  position: absolute;
   font-size: 24px;
-  animation: floatUp 3s ease-in forwards;
 }
 
 /* ---------- Extra: Optional Sunset Gradient Animation ---------- */
@@ -330,8 +328,10 @@ body.gradient-sunset {
   display: inline-block;
   transition: transform 0.3s;
 }
+
 .star:hover { transform: scale(1.3) rotate(10deg); }
 .star.twinkle { animation: twinkle 1s infinite alternate; }
+
 @keyframes twinkle {
   0% { color: gold; text-shadow: 0 0 5px gold; }
   100% { color: #fff; text-shadow: 0 0 20px gold; }
@@ -360,14 +360,4 @@ body.gradient-sunset {
   0% { transform: translate(-50%, -50px) scale(0.5); opacity: 0; }
   50% { transform: translate(-50%, 20px) scale(1.1); opacity: 1; }
   100% { transform: translate(-50%, 0px) scale(1); opacity: 1; }
-}
-
-.star-msg {
-  font-size: 16px;
-  color: #ff4d6d;
-  font-weight: bold;
-  text-align: center;
-  pointer-events: none;
-  z-index: 5000;
-  transition: top 0.5s ease, opacity 0.5s ease;
 }

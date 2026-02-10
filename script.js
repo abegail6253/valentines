@@ -59,43 +59,43 @@ const starContinueBtn = document.getElementById("starContinueBtn");
 
 stars.forEach(star => {
   star.addEventListener("click", () => {
-    // Display the fortune message in the paragraph
-    if(starFortune) starFortune.textContent = star.dataset.fortune;
+    // Display fortune text
+    if (starFortune) starFortune.textContent = star.dataset.fortune;
 
-    // Create a floating message div above the star
+    // Create floating message
     const msgDiv = document.createElement("div");
     msgDiv.className = "star-msg";
     msgDiv.textContent = star.dataset.fortune;
-
-    // Position it above the star like a falling petal
-    const rect = star.getBoundingClientRect();
-    const bodyRect = document.body.getBoundingClientRect();
     msgDiv.style.position = "absolute";
-    msgDiv.style.left = rect.left + rect.width/2 - bodyRect.left + "px";
-    msgDiv.style.top = rect.top - bodyRect.top - 20 + "px"; // start just above star
-    msgDiv.style.opacity = 0;
-
+    msgDiv.style.left = star.offsetLeft + "px";
+    msgDiv.style.top = star.offsetTop - 20 + "px";
+    msgDiv.style.opacity = 1;
+    msgDiv.style.pointerEvents = "none";
+    msgDiv.style.fontSize = "16px";
+    msgDiv.style.background = "rgba(255,204,213,0.9)";
+    msgDiv.style.padding = "5px 10px";
+    msgDiv.style.borderRadius = "12px";
+    msgDiv.style.whiteSpace = "nowrap";
     document.body.appendChild(msgDiv);
 
-    // Animate dropping down
-    let pos = -20;
-    let opacity = 0;
-    const drop = setInterval(() => {
-      pos += 2;
-      opacity += 0.05;
-      msgDiv.style.top = rect.top - bodyRect.top + pos + "px";
-      msgDiv.style.opacity = opacity;
-      if(opacity >= 1) clearInterval(drop);
-    }, 20);
+    // Animate falling
+    const duration = Math.random() * 3 + 3; // 3-6s
+    msgDiv.style.transition = `transform ${duration}s linear, opacity ${duration}s linear`;
+    setTimeout(() => {
+      msgDiv.style.transform = `translateY(300px) rotate(${Math.random()*360}deg)`;
+      msgDiv.style.opacity = 0;
+    }, 50);
 
-    // Make tiny hearts float up
+    setTimeout(() => msgDiv.remove(), duration * 1000);
+
+    // Tiny hearts
     createTinyFloatingHearts(star, 5, 20);
 
-    // Star twinkle effect
+    // Twinkle
     star.classList.add("twinkle");
     setTimeout(() => star.classList.remove("twinkle"), 1000);
 
-    // Show continue button
+    // Show continue
     starContinueBtn.style.display = "inline-block";
   });
 });
