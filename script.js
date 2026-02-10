@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const catchText = document.getElementById("catchText");
 
   const popupSound = document.getElementById("popupSound"); // Wrong gift
-  const yesSound = document.getElementById("yesSound");     // Yes button
+  const yesClickSound = document.getElementById("yesClickSound"); // Single sound for Yes
   const confettiContainer = document.getElementById("confettiContainer");
 
   const startBtn = document.getElementById("startBtn");
@@ -125,17 +125,17 @@ document.addEventListener("DOMContentLoaded", () => {
     noBtn.style.top=Math.random()*(parent.height-noBtn.offsetHeight)+"px";
   });
 
-  // Yes button click
+  // Yes button click (single sound)
   yesBtn.addEventListener("click", (e)=>{
-    e.stopPropagation(); // prevent any parent handlers
+    e.stopPropagation();
     finalText.textContent="Yay! Counting down to Valentine’s Day with you ❤️";
 
-    // Play only yes sound
-    yesSound.pause();
-    yesSound.currentTime=0;
-    yesSound.play().catch(err=>console.log("Yes sound blocked:",err));
+    // Play the only sound
+    yesClickSound.pause();
+    yesClickSound.currentTime = 0;
+    yesClickSound.play().catch(err=>console.log(err));
 
-    // Show confetti
+    // Confetti
     startConfetti();
 
     // Show couple bear GIF
@@ -157,4 +157,5 @@ document.addEventListener("DOMContentLoaded", () => {
       confetti.addEventListener("animationend",()=>confetti.remove());
     }
   }
+
 });
