@@ -1,6 +1,3 @@
-/* ----------------------------
-   General Body
----------------------------- */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -11,9 +8,6 @@ body {
   height: 100vh;
 }
 
-/* ----------------------------
-   Screens
----------------------------- */
 .screen {
   display: none;
   background: white;
@@ -26,31 +20,8 @@ body {
   position: relative;
 }
 
-.screen.active {
-  display: block;
-}
+.screen.active { display: block; }
 
-/* ----------------------------
-   Hearts on Screen 1
----------------------------- */
-.hearts {
-  font-size: 40px;
-  margin: 20px 0;
-}
-
-.heart {
-  cursor: pointer;
-  margin: 5px;
-  transition: transform 0.2s;
-}
-
-.heart:hover {
-  transform: scale(1.2);
-}
-
-/* ----------------------------
-   Buttons
----------------------------- */
 button {
   padding: 10px 20px;
   border: none;
@@ -61,36 +32,19 @@ button {
   transition: transform 0.2s, background 0.2s;
 }
 
-button:hover {
-  transform: scale(1.05);
-}
+button:hover { transform: scale(1.05); }
 
-/* ----------------------------
-   Moving Heart
----------------------------- */
 #movingHeart {
   font-size: 50px;
   cursor: pointer;
   position: relative;
-  transition: transform 0.1s;
+  transition: transform 0.05s; /* faster movement */
 }
 
-/* ----------------------------
-   Yes / No buttons
----------------------------- */
-.yes {
-  background: #ff4d6d;
-  color: white;
-}
+.yes { background: #ff4d6d; color: white; }
+.no { background: #ccc; transition: transform 0.01s; /* super fast */ }
 
-.no {
-  background: #ccc;
-  transition: transform 0.05s; /* move very fast */
-}
-
-/* ----------------------------
-   Gift Boxes (Screen 3)
----------------------------- */
+/* Gift Boxes */
 .box {
   background: #ffccd5;
   width: 80px;
@@ -102,42 +56,20 @@ button:hover {
   transition: transform 0.2s, background 0.2s, border 0.2s;
   perspective: 600px;
 }
+.box:hover { transform: scale(1.1); cursor: pointer; background: #ff99b3; }
+.box.selected { border: 3px solid #ff4d6d; }
 
-.box:hover {
-  transform: scale(1.1);
-  cursor: pointer;
-  background: #ff99b3;
-}
+/* Date result */
+#dateResult { font-size: 16px; margin-top: 15px; min-height: 24px; }
+#continueBtn { margin-top: 20px; background: #ff4d6d; color: white; }
 
-/* Highlight selected box */
-.box.selected {
-  border: 3px solid #ff4d6d;
-}
+/* Final text */
+#finalText { margin-top: 20px; font-size: 18px; font-weight: bold; color: #ff4d6d; }
 
-/* ----------------------------
-   Date Result Text
----------------------------- */
-#dateResult {
-  font-size: 16px;
-  margin-top: 15px;
-  min-height: 24px;
-}
+/* Hearts (Screen 1) */
+.hearts { font-size: 40px; margin: 20px 0; }
+.heart { cursor: pointer; margin: 5px; transition: transform 0.2s; }
+.heart:hover { transform: scale(1.2); }
 
-/* ----------------------------
-   Continue Button (Screen 3)
----------------------------- */
-#continueBtn {
-  margin-top: 20px;
-  background: #ff4d6d;
-  color: white;
-}
-
-/* ----------------------------
-   Final Text (Screen 4)
----------------------------- */
-#finalText {
-  margin-top: 20px;
-  font-size: 18px;
-  font-weight: bold;
-  color: #ff4d6d;
-}
+/* Outfit screen list */
+ul { text-align: left; margin: 10px auto; max-width: 300px; }

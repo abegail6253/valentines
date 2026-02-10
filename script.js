@@ -11,20 +11,16 @@ window.addEventListener("DOMContentLoaded", () => {
   const savedScreen = localStorage.getItem("currentScreen");
   const savedChoice = localStorage.getItem("valentineChoice");
 
-  // Validate savedScreen
   if (savedScreen && !isNaN(savedScreen) && savedScreen < screens.length) {
     current = parseInt(savedScreen);
   } else {
     current = 0;
   }
 
-  // Hide all screens first
   screens.forEach(screen => screen.classList.remove("active"));
-
-  // Show the correct screen
   screens[current].classList.add("active");
 
-  // Restore choice highlight if picked
+  // Restore gift box selection
   if (savedChoice !== null) {
     dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
     continueBtn.style.display = "inline-block";
@@ -45,35 +41,31 @@ function nextScreen() {
 }
 
 // -----------------
-// Catch the heart
+// Catch the heart (Screen 2)
 // -----------------
 const movingHeart = document.getElementById("movingHeart");
 const catchText = document.getElementById("catchText");
 
 movingHeart.addEventListener("mouseover", () => {
-  const x = Math.random() * 200 - 100;
-  const y = Math.random() * 200 - 100;
+  const x = Math.random() * 300 - 150; // faster movement
+  const y = Math.random() * 300 - 150;
   movingHeart.style.transform = `translate(${x}px, ${y}px)`;
 });
 
 movingHeart.addEventListener("click", () => {
   catchText.textContent = "Okay okay 😌 you caught me.";
-  setTimeout(() => nextScreen(), 1000);
+  setTimeout(() => nextScreen(), 500);
 });
 
 // -----------------
-// Pick gift box
+// Pick gift box (Screen 3)
 // -----------------
 function pickDate(index, btn) {
   if (localStorage.getItem("valentineChoice") !== null) return;
 
-  // Save choice
   localStorage.setItem("valentineChoice", index);
-
-  // Highlight picked box
   btn.classList.add("selected");
 
-  // 3D flip effect
   btn.style.transition = "transform 0.6s";
   btn.style.transform = "rotateX(180deg)";
 
@@ -97,8 +89,8 @@ function disableBoxes() {
 // Final Valentine screen
 // -----------------
 function moveNo(btn) {
-  const x = Math.random() * 300 - 150; // bigger jump
-  const y = Math.random() * 300 - 150;
+  const x = Math.random() * 500 - 250; // much faster movement
+  const y = Math.random() * 500 - 250;
   btn.style.transform = `translate(${x}px, ${y}px)`;
 }
 
