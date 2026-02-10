@@ -1,25 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
   let current = 0;
-  let selectedBox = null; // track chosen box
   let lastPopup = null;
 
   const screens = document.querySelectorAll(".screen");
-
-  const startBtn = document.getElementById("startBtn");
-  const heartContinueBtn = document.getElementById("heartContinueBtn");
+  const boxes = document.querySelectorAll(".box");
+  const dateResult = document.getElementById("dateResult");
   const continueBtn = document.getElementById("continueBtn");
-  const outfitContinueBtn = document.getElementById("outfitContinueBtn");
-  const quizContinueBtn = document.getElementById("quizContinueBtn");
-  const secretContinueBtn = document.getElementById("secretContinueBtn");
-  const memoryContinueBtn = document.getElementById("memoryContinueBtn");
-
+  const heartContinueBtn = document.getElementById("heartContinueBtn");
   const movingHeart = document.getElementById("movingHeart");
   const catchText = document.getElementById("catchText");
   const catchGifContainer = document.getElementById("catchGifContainer");
-
-  const boxes = document.querySelectorAll(".box");
-  const dateResult = document.getElementById("dateResult");
-
+  const wrongGiftSound = document.getElementById("wrongGiftSound");
+  const yesClickSound = document.getElementById("yesClickSound");
+  const confettiContainer = document.getElementById("confettiContainer");
+  const startBtn = document.getElementById("startBtn");
+  const outfitContinueBtn = document.getElementById("outfitContinueBtn");
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
   const valentineText = document.getElementById("valentineText");
@@ -29,79 +24,94 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const quizBtns = document.querySelectorAll(".quizBtn");
   const quizResult = document.getElementById("quizResult");
+  const quizCorrectSound = document.getElementById("quizCorrectSound");
+  const quizWrongSound = document.getElementById("quizWrongSound");
 
   const secretHearts = document.querySelectorAll(".secretHeart");
   const heartMsg = document.getElementById("heartMsg");
 
-  const wrongGiftSound = document.getElementById("wrongGiftSound");
-  const yesClickSound = document.getElementById("yesClickSound");
-  const quizCorrectSound = document.getElementById("quizCorrectSound");
-  const quizWrongSound = document.getElementById("quizWrongSound");
-  const confettiContainer = document.getElementById("confettiContainer");
+  const memorySequenceDiv = document.getElementById("memorySequence");
+  const memoryButtonsDiv = document.getElementById("memoryButtons");
+  const memoryResult = document.getElementById("memoryResult");
+  const memoryContinueBtn = document.getElementById("memoryContinueBtn");
+
+  // ------------------ RESTORE STATE ------------------
+  const savedScreen = localStorage.getItem("currentScreen");
+  const savedChoice = localStorage.getItem("valentineChoice");
+  if (savedScreen && !isNaN(savedScreen) && savedScreen < screens.length) current = parseInt(savedScreen);
+  screens.forEach(s => s.classList.remove("active"));
+  screens[current].classList.add("active");
+
+  if (savedChoice !== null) {
+    dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
+    continueBtn.style.display = "inline-block";
+    boxes[savedChoice].classList.add("selected");
+  }
 
   // ------------------ NAVIGATION ------------------
   function nextScreen() {
-    if(current >= screens.length -1) return;
+    if (current >= screens.length - 1) return;
     screens[current].classList.remove("active");
     current++;
     screens[current].classList.add("active");
+    localStorage.setItem("currentScreen", current);
 
-    if(screens[current].querySelector("#memorySequence")) startMemoryGame();
+    if (screens[current].querySelector("#memorySequence")) startMemoryGame();
   }
 
   [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, secretContinueBtn, memoryContinueBtn]
-    .forEach(btn => { if(btn) btn.addEventListener("click", nextScreen); });
+    .forEach(btn => { if (btn) btn.addEventListener("click", nextScreen); });
 
   // ------------------ HEART CATCH ------------------
   movingHeart?.addEventListener("mouseover", () => {
-    if(catchText.textContent) return;
+    if (catchText.textContent === "Okay okay 😌 you caught me.") return;
     const parent = movingHeart.parentElement.getBoundingClientRect();
     const heartSize = movingHeart.getBoundingClientRect();
-    movingHeart.style.position="absolute";
+    movingHeart.style.position = "absolute";
     movingHeart.style.left = Math.random() * (parent.width - heartSize.width) + "px";
     movingHeart.style.top = Math.random() * (parent.height - heartSize.height) + "px";
   });
 
   movingHeart?.addEventListener("click", () => {
-    if(catchText.textContent) return;
+    if (catchText.textContent === "Okay okay 😌 you caught me.") return;
     catchText.textContent = "Okay okay 😌 you caught me.";
     heartContinueBtn.style.display = "inline-block";
-    catchGifContainer.innerHTML=`<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExenp4MDczdDFrZXRxbWV3NjhvN2oxcHl5cW1kcjlpcGZkMmpnZ3N1YiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/oJQjQgACNyHgxXmMTi/giphy.gif" style="width:250px;border-radius:10px;">`;
+    catchGifContainer.innerHTML = `<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExenp4MDczdDFrZXRxbWV3NjhvN2oxcHl5cW1kcjlpcGZkMmpnZ3N1YiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/oJQjQgACNyHgxXmMTi/giphy.gif" alt="Caught heart GIF" style="width:250px;border-radius:10px;">`;
     startConfetti();
   });
 
-  // ------------------ GIFT BOXES WITH FUNNY POPUP ------------------
-  const correctGiftIndex = 0; // index of the correct box
+  // ------------------ GIFT BOXES ------------------
+  const correctGiftIndex = 0; // correct box index
 
   boxes.forEach(box => {
-    box.addEventListener("click", () => pickBox(box));
-    box.addEventListener("keydown", e => { 
-      if(e.key === "Enter" || e.key === " ") pickBox(box); 
-    });
-    box.setAttribute("tabindex","0");
+    box.addEventListener("click", () => pickDate(parseInt(box.dataset.index), box));
+    box.addEventListener("keydown", e => { if(e.key==="Enter" || e.key===" ") pickDate(parseInt(box.dataset.index), box); });
+    box.setAttribute("tabindex", "0");
   });
 
-  function pickBox(box){
-    if(selectedBox) return; // lock after correct choice
-
-    const index = parseInt(box.dataset.index);
-
-    if(index !== correctGiftIndex){
+  function pickDate(index, btn) {
+    const savedChoice = localStorage.getItem("valentineChoice");
+    if (savedChoice !== null && parseInt(savedChoice) !== index) {
       showFunnyPopup();
-      shakeBox(box);
+      shakeBox(btn);
       wrongGiftSound.currentTime = 0;
       wrongGiftSound.play();
       return;
     }
 
-    // correct choice
-    selectedBox = box;
-    box.classList.add("selected");
-    dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
-    continueBtn.style.display = "inline-block";
+    localStorage.setItem("valentineChoice", index);
+    boxes.forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    btn.style.transition = "transform 0.6s";
+    btn.style.transform = "rotateX(180deg)";
+    setTimeout(() => {
+      dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
+      btn.style.transform = "scale(1.1) rotateX(0deg)";
+      continueBtn.style.display = "inline-block";
+    }, 600);
   }
 
-  function showFunnyPopup(){
+  function showFunnyPopup() {
     const messages = [
       "Hey! That’s not your box 😉",
       "Hmm… trying to cheat? 😏",
@@ -110,26 +120,41 @@ document.addEventListener("DOMContentLoaded", () => {
       "Stick with your choice, it’s perfect! 😘"
     ];
     let msg;
-    do { 
-      msg = messages[Math.floor(Math.random()*messages.length)]; 
-    } while(msg === lastPopup);
+    do { msg = messages[Math.floor(Math.random()*messages.length)]; } while(msg === lastPopup);
     lastPopup = msg;
 
     const popup = document.createElement("div");
-    popup.className = "funny-popup";
     popup.textContent = msg;
+    popup.className = "funny-popup";
     document.body.appendChild(popup);
-
-    setTimeout(()=>{
+    setTimeout(() => {
       popup.classList.add("fade-out");
-      popup.addEventListener("animationend",()=> popup.remove());
+      popup.addEventListener("animationend", () => popup.remove());
     }, 2000);
   }
 
-  function shakeBox(box){
-    box.classList.add("shake");
-    setTimeout(()=> box.classList.remove("shake"), 600);
+  function shakeBox(btn) {
+    btn.classList.add("shake");
+    setTimeout(() => btn.classList.remove("shake"), 600);
   }
+
+  // ------------------ YES/NO BUTTONS ------------------
+  noBtn?.addEventListener("mouseover", () => {
+    const parent = noBtn.parentElement.getBoundingClientRect();
+    noBtn.style.position = "absolute";
+    noBtn.style.left = Math.random()*(parent.width-noBtn.offsetWidth)+"px";
+    noBtn.style.top = Math.random()*(parent.height-noBtn.offsetHeight)+"px";
+  });
+
+  yesBtn?.addEventListener("click", () => {
+    valentineText.textContent = "I knew you’d say yes! 😘";
+    yesClickSound.currentTime = 0;
+    yesClickSound.play().catch(()=>{});
+    startConfetti();
+    girlBear.style.display = "none";
+    kissGifContainer.innerHTML = `<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGs5aG51a3FiaHM3MnBwcjZ6NnJrdm5yOGR0NHB1aHo1ZjM2bGlmbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/L2CGLm2BRDOXCe1uKz/giphy.gif" style="width:300px;border-radius:10px;">`;
+    finalText.textContent = "Yay! Counting down to Valentine’s Day with you ❤️";
+  });
 
   // ------------------ QUIZ ------------------
   quizBtns.forEach(btn => {
@@ -150,24 +175,6 @@ document.addEventListener("DOMContentLoaded", () => {
     h.addEventListener("mouseover",()=>heartMsg.textContent=h.dataset.msg);
   });
 
-  // ------------------ YES/NO BUTTONS ------------------
-  noBtn?.addEventListener("mouseover",()=>{
-    const parent=noBtn.parentElement.getBoundingClientRect();
-    noBtn.style.position="absolute";
-    noBtn.style.left=Math.random()*(parent.width-noBtn.offsetWidth)+"px";
-    noBtn.style.top=Math.random()*(parent.height-noBtn.offsetHeight)+"px";
-  });
-
-  yesBtn?.addEventListener("click",()=>{
-    valentineText.textContent="I knew you’d say yes! 😘";
-    yesClickSound.currentTime=0;
-    yesClickSound.play().catch(()=>{});
-    startConfetti();
-    girlBear.style.display="none";
-    kissGifContainer.innerHTML=`<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGs5aG51a3FiaHM3MnBwcjZ6NnJrdm5yOGR0NHB1aHo1ZjM2bGlmbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/L2CGLm2BRDOXCe1uKz/giphy.gif" style="width:300px;border-radius:10px;">`;
-    finalText.textContent="Yay! Counting down to Valentine’s Day with you ❤️";
-  });
-
   // ------------------ CONFETTI ------------------
   function startConfetti(){
     for(let i=0;i<100;i++){
@@ -182,10 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ------------------ MEMORY GAME ------------------
-  const memorySequenceDiv = document.getElementById("memorySequence");
-  const memoryButtonsDiv = document.getElementById("memoryButtons");
-  const memoryResult = document.getElementById("memoryResult");
-
   let sequence = [];
   let userSequence = [];
   const emojis = ["❤️","💌","🥰","🌹","💖","💋"];
@@ -242,5 +245,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }
-
 });
