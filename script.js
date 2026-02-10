@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     movingHeart.style.left = Math.random() * (parent.width - heartSize.width) + "px";
     movingHeart.style.top = Math.random() * (parent.height - heartSize.height) + "px";
   });
+
   movingHeart.addEventListener("click", () => {
     if (catchText.textContent === "Okay okay 😌 you caught me.") return;
     catchText.textContent = "Okay okay 😌 you caught me.";
@@ -125,14 +126,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Yes button click
-  yesBtn.addEventListener("click", ()=>{
+  yesBtn.addEventListener("click", (e)=>{
+    e.stopPropagation(); // prevent any parent handlers
     finalText.textContent="Yay! Counting down to Valentine’s Day with you ❤️";
 
     // Play only yes sound
     yesSound.pause();
     yesSound.currentTime=0;
-    yesSound.play().catch(e=>console.log("Yes sound blocked:",e));
+    yesSound.play().catch(err=>console.log("Yes sound blocked:",err));
 
+    // Show confetti
     startConfetti();
 
     // Show couple bear GIF
