@@ -9,7 +9,7 @@
 <body>
 
   <!-- SCREEN 1 -->
-  <div class="screen" data-index="0">
+  <div class="screen active">
     <h1>Hi ❤️</h1>
     <p>Tap the hearts</p>
 
@@ -23,21 +23,21 @@
   </div>
 
   <!-- SCREEN 2 -->
-  <div class="screen" data-index="1">
+  <div class="screen">
     <h2>Catch the heart 😌</h2>
     <div id="movingHeart">❤️</div>
     <p id="catchText"></p>
   </div>
 
   <!-- SCREEN 3 -->
-  <div class="screen" data-index="2">
+  <div class="screen">
     <h2>Pick our date 💕</h2>
-    <p>Choose a surprise ❤️</p>
+    <p>Choose a gift ❤️</p>
 
     <div class="choices">
-      <button class="box" onclick="pickDate('🎁 Gift Box', this)">🎁 Gift Box</button>
-      <button class="box" onclick="pickDate('🌹 Rose Box', this)">🌹 Rose Box</button>
-      <button class="box" onclick="pickDate('💌 Heart Envelope', this)">💌 Heart Envelope</button>
+      <button class="box" onclick="pickDate(0, this)"></button>
+      <button class="box" onclick="pickDate(1, this)"></button>
+      <button class="box" onclick="pickDate(2, this)"></button>
     </div>
 
     <p id="dateResult"></p>
@@ -45,9 +45,9 @@
   </div>
 
   <!-- SCREEN 4 -->
-  <div class="screen" data-index="3">
+  <div class="screen">
     <h1>So… ❤️</h1>
-    <h2>Will you be my Valentine?</h2>
+    <h2>Will you be my Valentine, Dadecakes?</h2>
 
     <button class="yes" onclick="yes()">Yes 💕</button>
     <button class="no" onmouseover="moveNo(this)">No 🙃</button>

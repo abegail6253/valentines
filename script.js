@@ -24,11 +24,12 @@ window.addEventListener("DOMContentLoaded", () => {
   // Show the correct screen
   screens[current].classList.add("active");
 
-  // If already picked a date, restore date result
-  if (savedChoice && current === 2) {
+  // Restore choice highlight if picked
+  if (savedChoice !== null) {
     dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
     continueBtn.style.display = "inline-block";
     disableBoxes();
+    boxes[savedChoice].classList.add("selected");
   }
 });
 
@@ -57,18 +58,20 @@ movingHeart.addEventListener("mouseover", () => {
 
 movingHeart.addEventListener("click", () => {
   catchText.textContent = "Okay okay 😌 you caught me.";
-  setTimeout(() => {
-    nextScreen();
-  }, 1000);
+  setTimeout(() => nextScreen(), 1000);
 });
 
 // -----------------
-// Pick date surprise
+// Pick gift box
 // -----------------
-function pickDate(box, btn) {
-  if (localStorage.getItem("valentineChoice")) return;
+function pickDate(index, btn) {
+  if (localStorage.getItem("valentineChoice") !== null) return;
 
-  localStorage.setItem("valentineChoice", box);
+  // Save choice
+  localStorage.setItem("valentineChoice", index);
+
+  // Highlight picked box
+  btn.classList.add("selected");
 
   // 3D flip effect
   btn.style.transition = "transform 0.6s";
@@ -94,8 +97,8 @@ function disableBoxes() {
 // Final Valentine screen
 // -----------------
 function moveNo(btn) {
-  const x = Math.random() * 150 - 75;
-  const y = Math.random() * 150 - 75;
+  const x = Math.random() * 300 - 150; // bigger jump
+  const y = Math.random() * 300 - 150;
   btn.style.transform = `translate(${x}px, ${y}px)`;
 }
 

@@ -85,19 +85,21 @@ button:hover {
 
 .no {
   background: #ccc;
+  transition: transform 0.05s; /* move very fast */
 }
 
 /* ----------------------------
-   Surprise Boxes (Screen 3)
+   Gift Boxes (Screen 3)
 ---------------------------- */
 .box {
   background: #ffccd5;
-  color: #fff;
-  font-size: 18px;
+  width: 80px;
+  height: 80px;
   margin: 10px;
-  padding: 15px;
   border-radius: 15px;
-  transition: transform 0.2s, background 0.2s;
+  border: 2px solid transparent;
+  display: inline-block;
+  transition: transform 0.2s, background 0.2s, border 0.2s;
   perspective: 600px;
 }
 
@@ -105,6 +107,11 @@ button:hover {
   transform: scale(1.1);
   cursor: pointer;
   background: #ff99b3;
+}
+
+/* Highlight selected box */
+.box.selected {
+  border: 3px solid #ff4d6d;
 }
 
 /* ----------------------------
