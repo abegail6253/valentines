@@ -175,7 +175,6 @@ button:hover { transform: scale(1.05); }
   100% { opacity: 0; transform: translateY(-150px) scale(1.3); }
 }
 
-/* Heart explosions */
 .floatingHeart {
   font-size: 24px;
   animation-duration: 2s;
@@ -274,9 +273,7 @@ button:hover { transform: scale(1.05); }
 .love-note.visible { opacity: 1; }
 
 /* ---------- Emoji Animations ---------- */
-.emoji {
-  font-size: 24px;
-}
+.emoji { font-size: 24px; }
 
 /* ---------- Extra: Optional Sunset Gradient Animation ---------- */
 body.gradient-sunset {
@@ -337,27 +334,42 @@ body.gradient-sunset {
   100% { color: #fff; text-shadow: 0 0 20px gold; }
 }
 
-/* ---------- Dropping Messages ---------- */
-.star-msg {
-  position: absolute;
-  top: -50px;
+/* ---------- Dropping Messages (centered) ---------- */
+#starMsgContainer {
+  position: fixed;
+  top: 50%;  /* middle of the screen vertically */
   left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 204, 213, 0.95);
-  color: #ff1a6b;
-  padding: 15px 25px;
-  border-radius: 20px;
-  font-size: 18px;
-  font-weight: bold;
-  opacity: 0;
+  transform: translate(-50%, -50%);
   pointer-events: none;
-  z-index: 3000;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  animation: dropHeart 1s forwards;
+  z-index: 5000;
 }
 
-@keyframes dropHeart {
-  0% { transform: translate(-50%, -50px) scale(0.5); opacity: 0; }
-  50% { transform: translate(-50%, 20px) scale(1.1); opacity: 1; }
-  100% { transform: translate(-50%, 0px) scale(1); opacity: 1; }
+.star-msg {
+  background: rgba(255, 204, 213, 0.95);
+  color: #ff1a6b;
+  padding: 20px 30px;
+  border-radius: 25px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  opacity: 0;
+  margin-top: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  animation: dropHeartCenter 1s forwards;
+}
+
+/* Smooth drop from slightly above center to perfectly centered */
+@keyframes dropHeartCenter {
+  0% {
+    transform: translate(-50%, -100px) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -10px) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 1;
+  }
 }

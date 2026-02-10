@@ -57,42 +57,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ------------------ PICK A STAR / LOVE FORTUNE ------------------
   const stars = document.querySelectorAll(".star");
-  const starFortune = document.getElementById("starFortune"); 
+  const starMsgContainer = document.getElementById("starMsgContainer");
   const starContinueBtn = document.getElementById("starContinueBtn");
 
   stars.forEach(star => {
     star.addEventListener("click", () => {
-      if (starFortune) starFortune.textContent = star.dataset.fortune;
+      // Create the star message
+      const msg = document.createElement("div");
+      msg.classList.add("star-msg");
+      msg.innerText = star.dataset.fortune;
 
-      const msgDiv = document.createElement("div");
-      msgDiv.className = "star-msg";
-      msgDiv.textContent = star.dataset.fortune;
-      msgDiv.style.position = "absolute";
-      msgDiv.style.left = star.offsetLeft + "px";
-      msgDiv.style.top = star.offsetTop - 20 + "px";
-      msgDiv.style.opacity = 1;
-      msgDiv.style.pointerEvents = "none";
-      msgDiv.style.fontSize = "16px";
-      msgDiv.style.background = "rgba(255,204,213,0.9)";
-      msgDiv.style.padding = "5px 10px";
-      msgDiv.style.borderRadius = "12px";
-      msgDiv.style.whiteSpace = "nowrap";
-      document.body.appendChild(msgDiv);
+      // Add to star message container
+      starMsgContainer.appendChild(msg);
 
-      const duration = Math.random() * 3 + 3;
-      msgDiv.style.transition = `transform ${duration}s linear, opacity ${duration}s linear`;
-      setTimeout(() => {
-        msgDiv.style.transform = `translateY(300px) rotate(${Math.random()*360}deg)`;
-        msgDiv.style.opacity = 0;
-      }, 50);
+      // Animate floating from center if container is centered
+      setTimeout(() => { msg.style.opacity = 1; }, 50);
 
-      setTimeout(() => msgDiv.remove(), duration * 1000);
+      // Remove after 3 seconds
+      setTimeout(() => { msg.remove(); }, 3000);
 
+      // Tiny floating hearts effect
       createTinyFloatingHearts(star, 5, 20);
 
+      // Star twinkle effect
       star.classList.add("twinkle");
       setTimeout(() => star.classList.remove("twinkle"), 1000);
 
+      // Show continue button
       starContinueBtn.style.display = "inline-block";
     });
   });
@@ -227,17 +218,14 @@ document.addEventListener("DOMContentLoaded", () => {
     yesClickSound.currentTime = 0;
     yesClickSound.play().catch(()=>{});
 
-    // HIDE YES/NO
     yesBtn.style.display = "none";
     noBtn.style.display = "none";
 
     valentineText.textContent = "I knew you’d say yes! 😘";
     girlBear.style.display = "none";
 
-    // Show main kiss GIF
     kissGifContainer.innerHTML = `<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGs5aG51a3FiaHM3MnBwcjZ6NnJrdm5yOGR0NHB1aHo1ZjM2bGlmbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/L2CGLm2BRDOXCe1uKz/giphy.gif" style="width:300px;border-radius:10px;">`;
 
-    // Show flying kiss GIF with fade-in
     myFlyingKiss.style.display = "block";
     myFlyingKiss.style.opacity = 0;
     setTimeout(() => { myFlyingKiss.style.transition = "opacity 1s"; myFlyingKiss.style.opacity = 1; }, 50);
