@@ -3,6 +3,7 @@ const screens = document.querySelectorAll(".screen");
 const boxes = document.querySelectorAll(".box");
 const dateResult = document.getElementById("dateResult");
 const continueBtn = document.getElementById("continueBtn");
+const popupSound = document.getElementById("popupSound");
 
 // -----------------
 // Restore state on page load
@@ -57,7 +58,7 @@ movingHeart.addEventListener("click", () => {
 });
 
 // -----------------
-// Pick gift box (Screen 3) with funny popup and shake
+// Pick gift box (Screen 3) with funny popup, shake & sound
 // -----------------
 function pickDate(index, btn) {
   const savedChoice = localStorage.getItem("valentineChoice");
@@ -66,6 +67,8 @@ function pickDate(index, btn) {
     if (parseInt(savedChoice) !== index) {
       showFunnyPopup();
       shakeBox(btn);
+      popupSound.currentTime = 0;
+      popupSound.play();
     }
     return;
   }
@@ -98,7 +101,7 @@ function disableBoxes() {
 }
 
 // -----------------
-// Naughty / Funny popup with bounce
+// Naughty / Funny popup
 // -----------------
 function showFunnyPopup() {
   const messages = [
