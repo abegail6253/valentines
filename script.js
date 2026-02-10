@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const movingHeart = document.getElementById("movingHeart");
   const catchText = document.getElementById("catchText");
 
-  const popupSound = document.getElementById("popupSound"); // Wrong gift
-  const yesClickSound = document.getElementById("yesClickSound"); // Single sound for Yes
+  const wrongGiftSound = document.getElementById("wrongGiftSound");
+  const yesClickSound = document.getElementById("yesClickSound");
   const confettiContainer = document.getElementById("confettiContainer");
 
   const startBtn = document.getElementById("startBtn");
@@ -76,13 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function pickDate(index, btn){
     const savedChoice = localStorage.getItem("valentineChoice");
-    if(savedChoice!==null){
-      if(parseInt(savedChoice)!==index){
-        showFunnyPopup();
-        shakeBox(btn);
-        popupSound.currentTime = 0;
-        popupSound.play();
-      }
+    if(savedChoice!==null && parseInt(savedChoice)!==index){
+      showFunnyPopup();
+      shakeBox(btn);
+      wrongGiftSound.currentTime = 0;
+      wrongGiftSound.play();
       return;
     }
     localStorage.setItem("valentineChoice", index);
@@ -125,17 +123,16 @@ document.addEventListener("DOMContentLoaded", () => {
     noBtn.style.top=Math.random()*(parent.height-noBtn.offsetHeight)+"px";
   });
 
-  // Yes button click (single sound)
+  // Yes button click
   yesBtn.addEventListener("click", (e)=>{
     e.stopPropagation();
     finalText.textContent="Yay! Counting down to Valentine’s Day with you ❤️";
 
-    // Play the only sound
-    yesClickSound.pause();
+    // Play new yesClickSound
     yesClickSound.currentTime = 0;
-    yesClickSound.play().catch(err=>console.log(err));
+    yesClickSound.play().catch(err=>console.log("Yes sound blocked:", err));
 
-    // Confetti
+    // Show confetti
     startConfetti();
 
     // Show couple bear GIF
@@ -157,5 +154,4 @@ document.addEventListener("DOMContentLoaded", () => {
       confetti.addEventListener("animationend",()=>confetti.remove());
     }
   }
-
 });
