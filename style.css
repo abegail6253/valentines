@@ -52,7 +52,10 @@ button:hover { transform: scale(1.05); }
   margin: 10px;
   border-radius: 15px;
   border: 2px solid transparent;
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px; /* shows emoji */
   transition: transform 0.2s, background 0.2s, border 0.2s;
   perspective: 600px;
 }

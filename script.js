@@ -64,8 +64,12 @@ function pickDate(index, btn) {
   if (localStorage.getItem("valentineChoice") !== null) return;
 
   localStorage.setItem("valentineChoice", index);
+
+  // Highlight selected
+  boxes.forEach(b => b.classList.remove("selected"));
   btn.classList.add("selected");
 
+  // 3D flip animation
   btn.style.transition = "transform 0.6s";
   btn.style.transform = "rotateX(180deg)";
 
@@ -89,7 +93,7 @@ function disableBoxes() {
 // Final Valentine screen
 // -----------------
 function moveNo(btn) {
-  const x = Math.random() * 500 - 250; // much faster movement
+  const x = Math.random() * 500 - 250; // super fast
   const y = Math.random() * 500 - 250;
   btn.style.transform = `translate(${x}px, ${y}px)`;
 }
