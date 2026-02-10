@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const popupSound = document.getElementById("popupSound"); // Wrong gift
   const yesSound = document.getElementById("yesSound");     // Yes button
-  const confettiSound = document.getElementById("confettiSound"); // Confetti
   const confettiContainer = document.getElementById("confettiContainer");
 
   const startBtn = document.getElementById("startBtn");
@@ -81,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showFunnyPopup();
         shakeBox(btn);
         popupSound.currentTime = 0;
-        popupSound.play(); // ONLY wrong gift
+        popupSound.play();
       }
       return;
     }
@@ -129,15 +128,10 @@ document.addEventListener("DOMContentLoaded", () => {
   yesBtn.addEventListener("click", ()=>{
     finalText.textContent="Yay! Counting down to Valentine’s Day with you ❤️";
 
-    // Play yes sound
+    // Play only yes sound
     yesSound.pause();
     yesSound.currentTime=0;
     yesSound.play().catch(e=>console.log("Yes sound blocked:",e));
-
-    // Play confetti sound after 100ms
-    confettiSound.pause();
-    confettiSound.currentTime=0;
-    setTimeout(()=>confettiSound.play().catch(e=>console.log("Confetti blocked:",e)),100);
 
     startConfetti();
 
