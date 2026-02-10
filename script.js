@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const movingHeart = document.getElementById("movingHeart");
   const catchText = document.getElementById("catchText");
 
-  const popupSound = document.getElementById("popupSound");  // WRONG gift
-  const confettiSound = document.getElementById("confettiSound"); // YES
-  const yesSound = document.getElementById("yesSound"); // YES
+  const popupSound = document.getElementById("popupSound"); // WRONG gift
+  const yesSound = document.getElementById("yesSound"); // YES button click
+  const confettiSound = document.getElementById("confettiSound"); // cheer
   const confettiContainer = document.getElementById("confettiContainer");
 
   const startBtn = document.getElementById("startBtn");
@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const girlBear = document.getElementById("girlBear");
   const kissGifContainer = document.getElementById("kissGifContainer");
+  const finalText = document.getElementById("finalText");
 
   // Background music
   const music = new Audio("https://incompetech.filmmusic.io/song/3471-carefree.mp3");
@@ -31,10 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedScreen = localStorage.getItem("currentScreen");
   const savedChoice = localStorage.getItem("valentineChoice");
 
-  if (savedScreen && !isNaN(savedScreen) && savedScreen < screens.length) {
-    current = parseInt(savedScreen);
-  }
-
+  if (savedScreen && !isNaN(savedScreen) && savedScreen < screens.length) current = parseInt(savedScreen);
   screens.forEach(s => s.classList.remove("active"));
   screens[current].classList.add("active");
 
@@ -67,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
     movingHeart.style.left = Math.random() * (parent.width - heartSize.width) + "px";
     movingHeart.style.top = Math.random() * (parent.height - heartSize.height) + "px";
   });
-
   movingHeart.addEventListener("click", () => {
     if (catchText.textContent === "Okay okay 😌 you caught me.") return;
     catchText.textContent = "Okay okay 😌 you caught me.";
@@ -87,8 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if(parseInt(savedChoice)!==index){
         showFunnyPopup();
         shakeBox(btn);
-        popupSound.currentTime=0;
-        popupSound.play();  // ONLY for wrong gift
+        popupSound.currentTime = 0;
+        popupSound.play(); // WRONG gift only
       }
       return;
     }
@@ -113,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "Stick with your choice, it’s perfect! 😘"
     ];
     let msg;
-    do{msg=messages[Math.floor(Math.random()*messages.length)];}while(msg===lastPopup);
+    do{ msg = messages[Math.floor(Math.random()*messages.length)]; } while(msg===lastPopup);
     lastPopup=msg;
     const popup=document.createElement("div");
     popup.textContent=msg;
@@ -122,28 +119,32 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(()=>{popup.classList.add("fade-out");popup.addEventListener("animationend",()=>popup.remove());},2000);
   }
 
-  function shakeBox(btn){btn.classList.add("shake");setTimeout(()=>btn.classList.remove("shake"),600);}
+  function shakeBox(btn){ btn.classList.add("shake"); setTimeout(()=>btn.classList.remove("shake"),600); }
 
-  // Avoid No button
+  // No button avoids
   noBtn.addEventListener("mouseover", () => {
-    const parent=noBtn.parentElement.getBoundingClientRect();
+    const parent = noBtn.parentElement.getBoundingClientRect();
     noBtn.style.position="absolute";
     noBtn.style.left=Math.random()*(parent.width-noBtn.offsetWidth)+"px";
     noBtn.style.top=Math.random()*(parent.height-noBtn.offsetHeight)+"px";
   });
 
-  // Yes button
-  yesBtn.addEventListener("click", ()=>{
-    document.getElementById("finalText").textContent="Yay! Counting down to Valentine’s Day with you ❤️";
+  // Yes button click
+  yesBtn.addEventListener("click", async ()=>{
+    finalText.textContent="Yay! Counting down to Valentine’s Day with you ❤️";
 
-    // Play Yes sounds (ONLY yesSound + confettiSound)
     yesSound.currentTime=0;
-    yesSound.play().catch(e=>console.log("Yes sound blocked:",e));
     confettiSound.currentTime=0;
-    confettiSound.play().catch(e=>console.log("Confetti blocked:",e));
 
+    // Play Yes sound first
+    await yesSound.play().catch(e=>console.log("Yes sound blocked:",e));
+
+    // Play confetti after tiny delay
+    setTimeout(()=>{ confettiSound.play().catch(e=>console.log("Confetti blocked",e)); }, 100);
+
+    // Background music
     music.currentTime=0;
-    music.play().catch(e=>console.log("Music blocked:",e));
+    music.play().catch(e=>console.log("Music blocked",e));
 
     startConfetti();
 
@@ -151,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
     girlBear.style.display="none";
     kissGifContainer.innerHTML=`
       <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGs5aG51a3FiaHM3MnBwcjZ6NnJrdm5yOGR0NHB1aHo1ZjM2bGlmbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/L2CGLm2BRDOXCe1uKz/giphy.gif"
-      alt="Bear couple kissing" style="width:300px; border-radius:10px;">
+           alt="Bear couple kissing" style="width:300px; border-radius:10px;">
     `;
   });
 
