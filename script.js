@@ -81,7 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
     movingHeart.setAttribute("aria-label", "Heart caught!");
   });
 
-  // Keyboard accessibility for heart
   movingHeart.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       movingHeart.click();
@@ -183,6 +182,14 @@ document.addEventListener("DOMContentLoaded", () => {
   yesBtn.addEventListener("click", () => {
     document.getElementById("finalText").textContent =
       "Yay! Counting down to Valentine’s Day with you ❤️";
+
+    // Play confetti sound (allowed after user click)
+    confettiSound.currentTime = 0;
+    confettiSound.muted = false;
+    confettiSound.play().catch(e => {
+      console.log("Audio play blocked:", e);
+    });
+
     startConfetti();
   });
 
@@ -190,9 +197,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Confetti
   // -----------------
   function startConfetti() {
-    confettiSound.currentTime = 0;
-    confettiSound.play();
-
     for(let i=0; i<100; i++) {
       const confetti = document.createElement("div");
       confetti.className = "confetti";
