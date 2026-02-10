@@ -70,25 +70,66 @@ document.addEventListener("DOMContentLoaded", () => {
     startConfetti();
   });
 
-  // ------------------ GIFT BOXES ------------------
+  // ------------------ GIFT BOXES WITH FUNNY POPUP ------------------
+  const correctGiftIndex = 0; // index of the correct box
+
   boxes.forEach(box => {
-    box.addEventListener("click", () => {
-      if(selectedBox) return; // lock choice
-      selectedBox = box;
-      box.classList.add("selected");
-      dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
-      continueBtn.style.display = "inline-block";
-    });
+    box.addEventListener("click", () => pickBox(box));
     box.addEventListener("keydown", e => { 
-      if((e.key==="Enter" || e.key===" ") && !selectedBox){
-        selectedBox = box;
-        box.classList.add("selected");
-        dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
-        continueBtn.style.display = "inline-block";
-      }
+      if(e.key === "Enter" || e.key === " ") pickBox(box); 
     });
     box.setAttribute("tabindex","0");
   });
+
+  function pickBox(box){
+    if(selectedBox) return; // lock after correct choice
+
+    const index = parseInt(box.dataset.index);
+
+    if(index !== correctGiftIndex){
+      showFunnyPopup();
+      shakeBox(box);
+      wrongGiftSound.currentTime = 0;
+      wrongGiftSound.play();
+      return;
+    }
+
+    // correct choice
+    selectedBox = box;
+    box.classList.add("selected");
+    dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
+    continueBtn.style.display = "inline-block";
+  }
+
+  function showFunnyPopup(){
+    const messages = [
+      "Hey! That’s not your box 😉",
+      "Hmm… trying to cheat? 😏",
+      "Nope! You already picked your favorite ❤️",
+      "Nice try 😜",
+      "Stick with your choice, it’s perfect! 😘"
+    ];
+    let msg;
+    do { 
+      msg = messages[Math.floor(Math.random()*messages.length)]; 
+    } while(msg === lastPopup);
+    lastPopup = msg;
+
+    const popup = document.createElement("div");
+    popup.className = "funny-popup";
+    popup.textContent = msg;
+    document.body.appendChild(popup);
+
+    setTimeout(()=>{
+      popup.classList.add("fade-out");
+      popup.addEventListener("animationend",()=> popup.remove());
+    }, 2000);
+  }
+
+  function shakeBox(box){
+    box.classList.add("shake");
+    setTimeout(()=> box.classList.remove("shake"), 600);
+  }
 
   // ------------------ QUIZ ------------------
   quizBtns.forEach(btn => {
