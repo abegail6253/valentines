@@ -77,6 +77,28 @@
     <button id="secretContinueBtn">Continue</button>
   </div>
 
+  <!-- SCREEN 5.5: Draw/Write Love Note -->
+  <div class="screen">
+    <h2>Write Me a Love Note ✍️</h2>
+    <p>Type a short message for me. I’ll keep it in my heart ❤️</p>
+    <textarea id="loveNoteInput" rows="3" placeholder="Your message..."></textarea>
+    <button id="loveNoteSubmit">Send 💌</button>
+    <p id="loveNoteDisplay" style="margin-top:20px; font-style: italic;"></p>
+  </div>
+
+  <!-- SCREEN 5.6: Pick a Star / Love Fortune -->
+  <div class="screen">
+    <h2>Pick a Star ✨</h2>
+    <p>Click a star to reveal your love fortune 💖</p>
+    <div class="stars">
+      <span class="star" data-fortune="Your smile brightens my world 🌟">⭐</span>
+      <span class="star" data-fortune="Every moment with you is magic ✨">⭐</span>
+      <span class="star" data-fortune="You’re my favorite adventure 😘">⭐</span>
+    </div>
+    <p id="starFortune" style="margin-top:20px; font-style: italic;"></p>
+    <button id="starContinueBtn" style="display:none;">Continue</button>
+  </div>
+
   <!-- SCREEN 6: Countdown -->
   <div class="screen">
     <h2>Counting down to your biggest surprise 😏…</h2>
@@ -98,6 +120,13 @@
     <button class="no" id="noBtn">No 🙃</button>
     <p id="finalText"></p>
     <div id="kissGifContainer" style="margin-top:20px;"></div>
+
+    <!-- Your Flying Kiss GIF -->
+    <div id="myFlyingKiss" style="margin-top:20px; display:none;">
+      <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExczdxOWp2ZGltNjcwdWo4YzNrb3FvdGxtZWJ1Ym9zbTE2ZHlrNWdjYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/SrBubEM2E50sDXbsba/giphy.gif"
+           alt="Flying Kiss"
+           style="width:250px; border-radius:10px;">
+    </div>
   </div>
 
   <!-- Floating petals/stars -->

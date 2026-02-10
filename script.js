@@ -29,6 +29,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const heartMsg = document.getElementById("heartMsg");
   const body = document.body;
 
+  // ------------------ LOVE NOTE ------------------
+  const loveNoteInput = document.getElementById("loveNoteInput");
+  const loveNoteSubmit = document.getElementById("loveNoteSubmit");
+  const loveNoteDisplay = document.getElementById("loveNoteDisplay");
+
+  loveNoteSubmit?.addEventListener("click", () => {
+    const note = loveNoteInput.value.trim();
+    if (!note) return;
+    loveNoteDisplay.textContent = `"${note}" ❤️`;
+    fadeInText(loveNoteDisplay);
+    setTimeout(nextScreen, 2000); // go to next screen automatically
+  });
+
+  function fadeInText(el) {
+    let op = 0;
+    el.style.opacity = op;
+    const timer = setInterval(() => {
+      op += 0.05;
+      el.style.opacity = op;
+      if (op >= 1) clearInterval(timer);
+    }, 30);
+  }
+
+  // ------------------ PICK A STAR / LOVE FORTUNE ------------------
+  const stars = document.querySelectorAll(".star");
+  const starFortune = document.getElementById("starFortune");
+  const starContinueBtn = document.getElementById("starContinueBtn");
+
+  stars.forEach(star => {
+    star.addEventListener("click", () => {
+      starFortune.textContent = star.dataset.fortune;
+      star.classList.add("twinkle");
+      starContinueBtn.style.display = "inline-block";
+      createTinyFloatingHearts(star, 5, 15);
+    });
+  });
+
+  starContinueBtn?.addEventListener("click", nextScreen);
+
   // ------------------ RESTORE STATE ------------------
   const savedScreen = localStorage.getItem("currentScreen");
   const savedChoice = localStorage.getItem("valentineChoice");
@@ -62,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => screen.classList.remove("fade-in"), 500);
   }
 
-  [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, secretContinueBtn]
+  [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, secretContinueBtn, starContinueBtn]
     .forEach(btn => { if (btn) btn.addEventListener("click", nextScreen); });
 
   // ------------------ HEART CATCH ------------------
@@ -159,10 +198,15 @@ document.addEventListener("DOMContentLoaded", () => {
     yesClickSound.play().catch(()=>{});
     girlBear.style.display = "none";
     kissGifContainer.innerHTML = `<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGs5aG51a3FiaHM3MnBwcjZ6NnJrdm5yOGR0NHB1aHo1ZjM2bGlmbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/L2CGLm2BRDOXCe1uKz/giphy.gif" style="width:300px;border-radius:10px;">`;
+
+    // Show your flying kiss GIF
+    const myFlyingKiss = document.getElementById("myFlyingKiss");
+    myFlyingKiss.style.display = "block";
+
     finalText.textContent = "Yay! Counting down to Valentine’s Day with you ❤️";
     startConfetti();
     startHeartExplosions();
-    showLoveNote(); // <-- NEW ROMANTIC STATEMENT
+    showLoveNote();
   });
 
   function startHeartExplosions(){
@@ -180,7 +224,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function showLoveNote(){
     const note=document.createElement("div");
     note.className="love-note";
-    // NEW ROMANTIC MESSAGE
     note.textContent="You make every day brighter, and I can’t wait to make more memories with you ❤️";
     body.appendChild(note);
     setTimeout(()=>note.classList.add("visible"),50);
@@ -264,7 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
       petal.style.transform = `rotate(${Math.random()*360}deg) scale(${0.8 + Math.random()*0.4})`;
       body.appendChild(petal);
       setTimeout(() => petal.remove(), duration * 1000);
-    }, 300); // spawn every 0.3s for constant flow
+    }, 300); // spawn every 0.3s
   }
 
   startFloatingRosePetals();
