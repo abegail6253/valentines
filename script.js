@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     finalText.textContent = "Yay! Counting down to Valentine’s Day with you ❤️";
     startConfetti();
     startHeartExplosions();
-    showLoveNote();
+    showLoveNote(); // <-- NEW ROMANTIC STATEMENT
   });
 
   function startHeartExplosions(){
@@ -180,7 +180,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function showLoveNote(){
     const note=document.createElement("div");
     note.className="love-note";
-    note.textContent="Every moment with you is my favorite… will you be my Valentine forever?";
+    // NEW ROMANTIC MESSAGE
+    note.textContent="You make every day brighter, and I can’t wait to make more memories with you ❤️";
     body.appendChild(note);
     setTimeout(()=>note.classList.add("visible"),50);
     setTimeout(()=>note.remove(),7000);
@@ -252,22 +253,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ------------------ FLOATING ROSE PETALS ------------------
-function startFloatingRosePetals() {
-  setInterval(() => {
-    const petal = document.createElement("div");
-    petal.className = "rose-petal";
-    petal.style.left = Math.random() * 100 + "vw";
-    petal.style.top = "-20px";
-    const duration = Math.random() * 5 + 5; // 5s to 10s
-    petal.style.animationDuration = duration + "s";
-    petal.style.transform = `rotate(${Math.random()*360}deg) scale(${0.8 + Math.random()*0.4})`;
-    body.appendChild(petal);
-    setTimeout(() => petal.remove(), duration * 1000);
-  }, 300); // spawn every 0.3s for constant flow
-}
+  function startFloatingRosePetals() {
+    setInterval(() => {
+      const petal = document.createElement("div");
+      petal.className = "rose-petal";
+      petal.style.left = Math.random() * 100 + "vw";
+      petal.style.top = "-20px";
+      const duration = Math.random() * 5 + 5; // 5s to 10s
+      petal.style.animationDuration = duration + "s";
+      petal.style.transform = `rotate(${Math.random()*360}deg) scale(${0.8 + Math.random()*0.4})`;
+      body.appendChild(petal);
+      setTimeout(() => petal.remove(), duration * 1000);
+    }, 300); // spawn every 0.3s for constant flow
+  }
 
-// start petals when the app loads
-startFloatingRosePetals();
-
-
+  startFloatingRosePetals();
 });
