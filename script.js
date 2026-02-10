@@ -8,6 +8,9 @@ const heartContinueBtn = document.getElementById("heartContinueBtn");
 const movingHeart = document.getElementById("movingHeart");
 const catchText = document.getElementById("catchText");
 
+let heartCaught = false;
+let lastPopupIndex = -1;
+
 // -----------------
 // Restore state on page load
 // -----------------
@@ -46,14 +49,18 @@ function nextScreen() {
 // Catch the heart (Screen 2)
 // -----------------
 movingHeart.addEventListener("mouseover", () => {
+  if (heartCaught) return; // Stop moving if caught
   const x = Math.random() * 300 - 150; 
   const y = Math.random() * 300 - 150;
   movingHeart.style.transform = `translate(${x}px, ${y}px)`;
 });
 
 movingHeart.addEventListener("click", () => {
+  if (heartCaught) return;
   catchText.textContent = "Okay okay 😌 you caught me.";
-  heartContinueBtn.style.display = "inline-block"; // Show continue button
+  heartContinueBtn.style.display = "inline-block";
+  heartCaught = true; // prevent further movement or clicks
+  movingHeart.style.cursor = "default";
 });
 
 // -----------------
@@ -89,7 +96,7 @@ function pickDate(index, btn) {
 }
 
 // -----------------
-// Naughty / Funny popup
+// Naughty / Funny popup (no repeats)
 // -----------------
 function showFunnyPopup() {
   const messages = [
@@ -99,10 +106,15 @@ function showFunnyPopup() {
     "Nice try, Dadecakes 😜",
     "Stick with your choice, it’s perfect! 😘"
   ];
-  const msg = messages[Math.floor(Math.random() * messages.length)];
+
+  let msgIndex;
+  do {
+    msgIndex = Math.floor(Math.random() * messages.length);
+  } while (msgIndex === lastPopupIndex); // avoid same message twice
+  lastPopupIndex = msgIndex;
 
   const popup = document.createElement("div");
-  popup.textContent = msg;
+  popup.textContent = messages[msgIndex];
   popup.className = "funny-popup";
   document.body.appendChild(popup);
 
