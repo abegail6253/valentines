@@ -7,7 +7,9 @@ function nextScreen() {
   screens[current].classList.add("active");
 }
 
+// -----------------
 // Catch the heart
+// -----------------
 const movingHeart = document.getElementById("movingHeart");
 const catchText = document.getElementById("catchText");
 
@@ -22,13 +24,26 @@ movingHeart.addEventListener("click", () => {
   setTimeout(nextScreen, 1000);
 });
 
-// Pick date
-function pickDate(choice) {
-  document.getElementById("dateResult").textContent =
-    `Perfect. I’d love ${choice} with you ❤️`;
+// -----------------
+// Pick date surprise (all options go to Almeja Azul Lyr Beach Resort)
+// -----------------
+function pickDate(box) {
+  const dateResult = document.getElementById("dateResult");
+  const continueBtn = document.getElementById("continueBtn");
+
+  // Show a little “opening” animation
+  dateResult.textContent = `Opening ${box}... 😌`;
+
+  // After 1 second, reveal the surprise
+  setTimeout(() => {
+    dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
+    continueBtn.style.display = "inline-block"; // show Continue button
+  }, 1000);
 }
 
-// Final
+// -----------------
+// Final Valentine screen
+// -----------------
 function moveNo(btn) {
   const x = Math.random() * 150 - 75;
   const y = Math.random() * 150 - 75;

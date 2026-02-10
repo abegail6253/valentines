@@ -32,15 +32,16 @@
   <!-- SCREEN 3 -->
   <div class="screen">
     <h2>Pick our date 💕</h2>
+    <p>Choose a surprise ❤️</p>
 
     <div class="choices">
-      <button onclick="pickDate('Coffee ☕')">Coffee ☕</button>
-      <button onclick="pickDate('Beach 🌊')">Beach 🌊</button>
-      <button onclick="pickDate('Movie 🎬')">Movie 🎬</button>
+      <button class="box" onclick="pickDate('🎁 Gift Box')">🎁 Gift Box</button>
+      <button class="box" onclick="pickDate('🌹 Rose Box')">🌹 Rose Box</button>
+      <button class="box" onclick="pickDate('💌 Heart Envelope')">💌 Heart Envelope</button>
     </div>
 
     <p id="dateResult"></p>
-    <button onclick="nextScreen()">Continue</button>
+    <button onclick="nextScreen()" style="display:none;" id="continueBtn">Continue</button>
   </div>
 
   <!-- SCREEN 4 -->
