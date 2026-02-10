@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const valentineText = document.getElementById("valentineText");
   const girlBear = document.getElementById("girlBear");
   const kissGifContainer = document.getElementById("kissGifContainer");
+  const myFlyingKiss = document.getElementById("myFlyingKiss");
   const finalText = document.getElementById("finalText");
   const quizBtns = document.querySelectorAll(".quizBtn");
   const quizResult = document.getElementById("quizResult");
@@ -52,55 +53,49 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 30);
   }
 
+  localStorage.removeItem("starFortune");
+
   // ------------------ PICK A STAR / LOVE FORTUNE ------------------
-const stars = document.querySelectorAll(".star");
-const starFortune = document.getElementById("starFortune"); // display area
-const starContinueBtn = document.getElementById("starContinueBtn");
+  const stars = document.querySelectorAll(".star");
+  const starFortune = document.getElementById("starFortune"); 
+  const starContinueBtn = document.getElementById("starContinueBtn");
 
-stars.forEach(star => {
-  star.addEventListener("click", () => {
-    // Display fortune text
-    if (starFortune) starFortune.textContent = star.dataset.fortune;
+  stars.forEach(star => {
+    star.addEventListener("click", () => {
+      if (starFortune) starFortune.textContent = star.dataset.fortune;
 
-    // Create floating message
-    const msgDiv = document.createElement("div");
-    msgDiv.className = "star-msg";
-    msgDiv.textContent = star.dataset.fortune;
-    msgDiv.style.position = "absolute";
-    msgDiv.style.left = star.offsetLeft + "px";
-    msgDiv.style.top = star.offsetTop - 20 + "px";
-    msgDiv.style.opacity = 1;
-    msgDiv.style.pointerEvents = "none";
-    msgDiv.style.fontSize = "16px";
-    msgDiv.style.background = "rgba(255,204,213,0.9)";
-    msgDiv.style.padding = "5px 10px";
-    msgDiv.style.borderRadius = "12px";
-    msgDiv.style.whiteSpace = "nowrap";
-    document.body.appendChild(msgDiv);
+      const msgDiv = document.createElement("div");
+      msgDiv.className = "star-msg";
+      msgDiv.textContent = star.dataset.fortune;
+      msgDiv.style.position = "absolute";
+      msgDiv.style.left = star.offsetLeft + "px";
+      msgDiv.style.top = star.offsetTop - 20 + "px";
+      msgDiv.style.opacity = 1;
+      msgDiv.style.pointerEvents = "none";
+      msgDiv.style.fontSize = "16px";
+      msgDiv.style.background = "rgba(255,204,213,0.9)";
+      msgDiv.style.padding = "5px 10px";
+      msgDiv.style.borderRadius = "12px";
+      msgDiv.style.whiteSpace = "nowrap";
+      document.body.appendChild(msgDiv);
 
-    // Animate falling
-    const duration = Math.random() * 3 + 3; // 3-6s
-    msgDiv.style.transition = `transform ${duration}s linear, opacity ${duration}s linear`;
-    setTimeout(() => {
-      msgDiv.style.transform = `translateY(300px) rotate(${Math.random()*360}deg)`;
-      msgDiv.style.opacity = 0;
-    }, 50);
+      const duration = Math.random() * 3 + 3;
+      msgDiv.style.transition = `transform ${duration}s linear, opacity ${duration}s linear`;
+      setTimeout(() => {
+        msgDiv.style.transform = `translateY(300px) rotate(${Math.random()*360}deg)`;
+        msgDiv.style.opacity = 0;
+      }, 50);
 
-    setTimeout(() => msgDiv.remove(), duration * 1000);
+      setTimeout(() => msgDiv.remove(), duration * 1000);
 
-    // Tiny hearts
-    createTinyFloatingHearts(star, 5, 20);
+      createTinyFloatingHearts(star, 5, 20);
 
-    // Twinkle
-    star.classList.add("twinkle");
-    setTimeout(() => star.classList.remove("twinkle"), 1000);
+      star.classList.add("twinkle");
+      setTimeout(() => star.classList.remove("twinkle"), 1000);
 
-    // Show continue
-    starContinueBtn.style.display = "inline-block";
+      starContinueBtn.style.display = "inline-block";
+    });
   });
-});
-
-
 
   starContinueBtn?.addEventListener("click", nextScreen);
 
@@ -229,12 +224,26 @@ stars.forEach(star => {
   });
 
   yesBtn?.addEventListener("click", () => {
-    valentineText.textContent = "I knew you’d say yes! 😘";
     yesClickSound.currentTime = 0;
     yesClickSound.play().catch(()=>{});
+
+    // HIDE YES/NO
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+
+    valentineText.textContent = "I knew you’d say yes! 😘";
     girlBear.style.display = "none";
+
+    // Show main kiss GIF
     kissGifContainer.innerHTML = `<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGs5aG51a3FiaHM3MnBwcjZ6NnJrdm5yOGR0NHB1aHo1ZjM2bGlmbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/L2CGLm2BRDOXCe1uKz/giphy.gif" style="width:300px;border-radius:10px;">`;
+
+    // Show flying kiss GIF with fade-in
+    myFlyingKiss.style.display = "block";
+    myFlyingKiss.style.opacity = 0;
+    setTimeout(() => { myFlyingKiss.style.transition = "opacity 1s"; myFlyingKiss.style.opacity = 1; }, 50);
+
     finalText.textContent = "Yay! Counting down to Valentine’s Day with you ❤️";
+
     startConfetti();
     startHeartExplosions();
     showLoveNote();
@@ -281,17 +290,13 @@ stars.forEach(star => {
       heartMsg.textContent = h.dataset.msg;
       createTinyFloatingHearts(h);
 
-      // SHOW CONTINUE BUTTON when a heart is hovered
       const secretContinueBtn = document.getElementById("secretContinueBtn");
       if (secretContinueBtn) secretContinueBtn.style.display = "inline-block";
     });
   });
 
-  // ADD CLICK HANDLER FOR SECRET CONTINUE BUTTON
   const secretContinueBtn = document.getElementById("secretContinueBtn");
-  if (secretContinueBtn) {
-    secretContinueBtn.addEventListener("click", nextScreen);
-  }
+  if (secretContinueBtn) secretContinueBtn.addEventListener("click", nextScreen);
 
   // ------------------ CONFETTI ------------------
   function startConfetti(){
@@ -343,12 +348,12 @@ stars.forEach(star => {
       petal.className = "rose-petal";
       petal.style.left = Math.random() * 100 + "vw";
       petal.style.top = "-20px";
-      const duration = Math.random() * 5 + 5; // 5s to 10s
+      const duration = Math.random() * 5 + 5; 
       petal.style.animationDuration = duration + "s";
       petal.style.transform = `rotate(${Math.random()*360}deg) scale(${0.8 + Math.random()*0.4})`;
       body.appendChild(petal);
       setTimeout(() => petal.remove(), duration * 1000);
-    }, 300); // spawn every 0.3s
+    }, 300);
   }
 
   startFloatingRosePetals();
