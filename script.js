@@ -204,9 +204,11 @@ document.addEventListener("DOMContentLoaded", () => {
     userSequence = [];
     memoryResult.textContent="";
     memoryButtonsDiv.innerHTML="";
-    for(let i=0;i<4;i++){
-      sequence.push(emojis[Math.floor(Math.random()*emojis.length)]);
-    }
+    
+    // 3 emojis only
+    const chosenEmojis = [...emojis].sort(()=>0.5-Math.random()).slice(0,3);
+    sequence = chosenEmojis;
+
     memorySequenceDiv.textContent="";
     let i=0;
     const interval = setInterval(()=>{
@@ -215,14 +217,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if(i>=sequence.length){
         clearInterval(interval);
         memorySequenceDiv.textContent="❓";
-        createMemoryButtons();
+        setTimeout(createMemoryButtons, 500); // small delay before buttons appear
       }
     },1000);
   }
 
   function createMemoryButtons(){
     memoryButtonsDiv.innerHTML="";
-    const shuffled = [...emojis].sort(()=>0.5-Math.random());
+    const shuffled = [...sequence].sort(()=>0.5-Math.random());
     shuffled.forEach(e=>{
       const btn=document.createElement("button");
       btn.textContent=e;
@@ -239,9 +241,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if(userSequence.join("")===sequence.join("")){
         memoryResult.textContent = loveNotes[Math.floor(Math.random()*loveNotes.length)];
         memoryContinueBtn.style.display="inline-block";
+        // automatic continue after 2 seconds
+        setTimeout(nextScreen, 2000);
       } else {
         memoryResult.textContent = "❌ Wrong! Try again 💌";
         userSequence = [];
+        memorySequenceDiv.textContent="❓";
       }
     }
   }
