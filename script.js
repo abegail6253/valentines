@@ -1,5 +1,20 @@
 let current = 0;
 const screens = document.querySelectorAll(".screen");
+const boxes = document.querySelectorAll(".box");
+const dateResult = document.getElementById("dateResult");
+const continueBtn = document.getElementById("continueBtn");
+
+// -----------------
+// Keep choice persistent with localStorage
+// -----------------
+window.addEventListener("DOMContentLoaded", () => {
+  const savedChoice = localStorage.getItem("valentineChoice");
+  if (savedChoice) {
+    dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
+    continueBtn.style.display = "inline-block";
+    disableBoxes();
+  }
+});
 
 function nextScreen() {
   screens[current].classList.remove("active");
@@ -28,8 +43,11 @@ movingHeart.addEventListener("click", () => {
 // Pick date surprise with 3D effect
 // -----------------
 function pickDate(box, btn) {
-  const dateResult = document.getElementById("dateResult");
-  const continueBtn = document.getElementById("continueBtn");
+  // Prevent picking again if already chosen
+  if (localStorage.getItem("valentineChoice")) return;
+
+  // Save choice
+  localStorage.setItem("valentineChoice", box);
 
   // Animate the button to "open" (3D flip)
   btn.style.transition = "transform 0.6s";
@@ -38,9 +56,18 @@ function pickDate(box, btn) {
   // After 0.6s, reveal the resort surprise
   setTimeout(() => {
     dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
-    btn.style.transform = "scale(1.1) rotateX(0deg)"; // optional: keep it slightly larger
+    btn.style.transform = "scale(1.1) rotateX(0deg)";
     continueBtn.style.display = "inline-block"; // show Continue button
+    disableBoxes();
   }, 600);
+}
+
+function disableBoxes() {
+  boxes.forEach(b => {
+    b.disabled = true;
+    b.style.cursor = "not-allowed";
+    b.style.opacity = 0.6;
+  });
 }
 
 // -----------------
