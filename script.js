@@ -57,7 +57,7 @@ movingHeart.addEventListener("click", () => {
 });
 
 // -----------------
-// Pick gift box (Screen 3) with funny popup
+// Pick gift box (Screen 3) with funny popup and shake
 // -----------------
 function pickDate(index, btn) {
   const savedChoice = localStorage.getItem("valentineChoice");
@@ -65,6 +65,7 @@ function pickDate(index, btn) {
   if (savedChoice !== null) {
     if (parseInt(savedChoice) !== index) {
       showFunnyPopup();
+      shakeBox(btn);
     }
     return;
   }
@@ -97,7 +98,7 @@ function disableBoxes() {
 }
 
 // -----------------
-// Naughty / Funny popup
+// Naughty / Funny popup with bounce
 // -----------------
 function showFunnyPopup() {
   const messages = [
@@ -111,23 +112,21 @@ function showFunnyPopup() {
 
   const popup = document.createElement("div");
   popup.textContent = msg;
-  popup.style.position = "fixed";
-  popup.style.top = "50%";
-  popup.style.left = "50%";
-  popup.style.transform = "translate(-50%, -50%)";
-  popup.style.background = "#ffccd5";
-  popup.style.color = "#ff1a6b";
-  popup.style.padding = "15px 25px";
-  popup.style.borderRadius = "20px";
-  popup.style.fontSize = "16px";
-  popup.style.fontWeight = "bold";
-  popup.style.boxShadow = "0 5px 15px rgba(0,0,0,0.3)";
-  popup.style.zIndex = 1000;
-  popup.style.textAlign = "center";
-
+  popup.className = "funny-popup";
   document.body.appendChild(popup);
 
-  setTimeout(() => popup.remove(), 2000);
+  setTimeout(() => {
+    popup.classList.add("fade-out");
+    setTimeout(() => popup.remove(), 500);
+  }, 2000);
+}
+
+// -----------------
+// Shake wrong box
+// -----------------
+function shakeBox(btn) {
+  btn.classList.add("shake");
+  setTimeout(() => btn.classList.remove("shake"), 600);
 }
 
 // -----------------

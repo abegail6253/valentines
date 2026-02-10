@@ -71,3 +71,53 @@ button:hover { transform: scale(1.05); }
 .heart:hover { transform: scale(1.2); }
 
 ul { text-align: left; margin: 10px auto; max-width: 300px; }
+
+/* -------------------- */
+/* Funny Popup Styles */
+.funny-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: #ffccd5;
+  color: #ff1a6b;
+  padding: 15px 25px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  text-align: center;
+  z-index: 1000;
+  animation: bounce-in 0.5s forwards;
+}
+
+.funny-popup.fade-out {
+  animation: fade-out 0.5s forwards;
+}
+
+@keyframes bounce-in {
+  0% { transform: translate(-50%, -50%) scale(0); }
+  60% { transform: translate(-50%, -50%) scale(1.2); }
+  80% { transform: translate(-50%, -50%) scale(0.9); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes fade-out {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+}
+
+/* -------------------- */
+/* Shake Animation for wrong box */
+.shake {
+  animation: shake 0.6s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-10px); }
+  80% { transform: translateX(10px); }
+  100% { transform: translateX(0); }
+}
