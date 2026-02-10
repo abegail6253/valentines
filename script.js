@@ -9,25 +9,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const heartContinueBtn = document.getElementById("heartContinueBtn");
   const movingHeart = document.getElementById("movingHeart");
   const catchText = document.getElementById("catchText");
+
   const popupSound = document.getElementById("popupSound");
   const confettiSound = document.getElementById("confettiSound");
+  const yesSound = document.getElementById("yesSound");
   const confettiContainer = document.getElementById("confettiContainer");
 
-  // Buttons
   const startBtn = document.getElementById("startBtn");
   const outfitContinueBtn = document.getElementById("outfitContinueBtn");
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
 
-  // -----------------
-  // Add music
-  // -----------------
-  const music = new Audio("https://incompetech.filmmusic.io/song/3471-carefree.mp3");
-  music.loop = true; // Loop the music
+  const girlBear = document.getElementById("girlBear");
+  const kissGifContainer = document.getElementById("kissGifContainer");
 
-  // -----------------
-  // Restore state
-  // -----------------
+  // ----------------- Background music -----------------
+  const music = new Audio("https://incompetech.filmmusic.io/song/3471-carefree.mp3");
+  music.loop = true;
+
+  // ----------------- Restore state -----------------
   const savedScreen = localStorage.getItem("currentScreen");
   const savedChoice = localStorage.getItem("valentineChoice");
 
@@ -44,9 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     boxes[savedChoice].classList.add("selected");
   }
 
-  // -----------------
-  // Navigation
-  // -----------------
+  // ----------------- Navigation -----------------
   function nextScreen() {
     if (current >= screens.length - 1) return;
     screens[current].classList.remove("active");
@@ -60,15 +58,12 @@ document.addEventListener("DOMContentLoaded", () => {
   continueBtn.addEventListener("click", nextScreen);
   outfitContinueBtn.addEventListener("click", nextScreen);
 
-  // -----------------
-  // Heart catch (stay in bounds)
-  // -----------------
+  // ----------------- Heart catch -----------------
   movingHeart.addEventListener("mouseover", () => {
     if (catchText.textContent === "Okay okay 😌 you caught me.") return;
 
     const parent = movingHeart.parentElement.getBoundingClientRect();
     const heartSize = movingHeart.getBoundingClientRect();
-
     const maxX = parent.width - heartSize.width;
     const maxY = parent.height - heartSize.height;
 
@@ -88,14 +83,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   movingHeart.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      movingHeart.click();
-    }
+    if (e.key === "Enter" || e.key === " ") movingHeart.click();
   });
 
-  // -----------------
-  // Pick gift box
-  // -----------------
+  // ----------------- Pick gift box -----------------
   boxes.forEach(box => {
     box.addEventListener("click", () => pickDate(parseInt(box.dataset.index), box));
     box.addEventListener("keydown", e => {
@@ -106,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function pickDate(index, btn) {
     const savedChoice = localStorage.getItem("valentineChoice");
-
     if (savedChoice !== null) {
       if (parseInt(savedChoice) !== index) {
         showFunnyPopup();
@@ -131,9 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 600);
   }
 
-  // -----------------
-  // Funny popup
-  // -----------------
   function showFunnyPopup() {
     const messages = [
       "Hey! That’s not your box 😉",
@@ -144,10 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     let msg;
-    do {
-      msg = messages[Math.floor(Math.random() * messages.length)];
-    } while(msg === lastPopup);
-
+    do { msg = messages[Math.floor(Math.random() * messages.length)]; }
+    while(msg === lastPopup);
     lastPopup = msg;
 
     const popup = document.createElement("div");
@@ -161,17 +146,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2000);
   }
 
-  // -----------------
-  // Shake box
-  // -----------------
   function shakeBox(btn) {
     btn.classList.add("shake");
     setTimeout(() => btn.classList.remove("shake"), 600);
   }
 
-  // -----------------
-  // Final screen
-  // -----------------
+  // ----------------- Final screen -----------------
   noBtn.addEventListener("mouseover", () => {
     const parent = noBtn.parentElement.getBoundingClientRect();
     const maxX = parent.width - noBtn.offsetWidth;
@@ -189,21 +169,28 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("finalText").textContent =
       "Yay! Counting down to Valentine’s Day with you ❤️";
 
-    // Play confetti sound and background music
+    // Play cute Yes sound
+    yesSound.currentTime = 0;
+    yesSound.play().catch(e => console.log("Yes sound blocked:", e));
+
+    // Play confetti and background music
     confettiSound.currentTime = 0;
-    confettiSound.muted = false;
-    confettiSound.play().catch(e => console.log("Confetti sound blocked:", e));
+    confettiSound.play().catch(e => console.log("Confetti blocked:", e));
 
     music.currentTime = 0;
-    music.muted = false;
-    music.play().catch(e => console.log("Music play blocked:", e));
+    music.play().catch(e => console.log("Music blocked:", e));
 
     startConfetti();
+
+    // Replace girl bear with kissing bears GIF
+    girlBear.style.display = "none";
+    kissGifContainer.innerHTML = `
+      <img src="https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif"
+           alt="Bear couple kissing" style="width:300px; border-radius:10px;">
+    `;
   });
 
-  // -----------------
-  // Confetti
-  // -----------------
+  // ----------------- Confetti -----------------
   function startConfetti() {
     for(let i=0; i<100; i++) {
       const confetti = document.createElement("div");

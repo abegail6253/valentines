@@ -6,6 +6,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  overflow: hidden;
 }
 
 .screen {
@@ -143,4 +144,23 @@ ul { text-align: left; margin: 10px auto; max-width: 300px; }
 @keyframes fall {
   0% { transform: translateY(0) rotate(0deg); }
   100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* ---------- Bear animations ---------- */
+#valentineBearContainer img {
+  animation: floatBear 2s ease-in-out infinite;
+}
+
+@keyframes floatBear {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+#kissGifContainer img {
+  animation: scaleUp 1s ease forwards;
+}
+
+@keyframes scaleUp {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
 }
