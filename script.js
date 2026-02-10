@@ -42,15 +42,13 @@ document.addEventListener("DOMContentLoaded", () => {
     screens[current].classList.remove("active");
     current++;
     screens[current].classList.add("active");
-    localStorage.setItem("currentScreen", current);
 
     // If memory game screen, start sequence
     if(screens[current].querySelector("#memorySequence")) startMemoryGame();
   }
 
-  [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, secretContinueBtn, memoryContinueBtn].forEach(btn=>{
-    if(btn) btn.addEventListener("click", nextScreen);
-  });
+  [startBtn, heartContinueBtn, continueBtn, outfitContinueBtn, quizContinueBtn, secretContinueBtn, memoryContinueBtn]
+  .forEach(btn => { if(btn) btn.addEventListener("click", nextScreen); });
 
   // Heart Catch
   movingHeart?.addEventListener("mouseover", () => {
@@ -61,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     movingHeart.style.left = Math.random() * (parent.width - heartSize.width) + "px";
     movingHeart.style.top = Math.random() * (parent.height - heartSize.height) + "px";
   });
+
   movingHeart?.addEventListener("click", () => {
     if(catchText.textContent) return;
     catchText.textContent = "Okay okay 😌 you caught me.";
@@ -74,8 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
     box.addEventListener("click",()=>pickDate(parseInt(box.dataset.index),box));
     box.setAttribute("tabindex","0");
   });
+
   function pickDate(index, btn){
-    localStorage.setItem("valentineChoice",index);
     boxes.forEach(b=>b.classList.remove("selected"));
     btn.classList.add("selected");
     dateResult.textContent = `Surprise! 🌊 We're going to Almeja Azul Lyr Beach Resort! ❤️`;
@@ -101,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
     h.addEventListener("mouseover",()=>heartMsg.textContent=h.dataset.msg);
   });
 
-  // No button hover escape
+  // No button hover
   noBtn?.addEventListener("mouseover",()=>{
     const parent=noBtn.parentElement.getBoundingClientRect();
     noBtn.style.position="absolute";
@@ -132,35 +131,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ------------------- MEMORY GAME -------------------
+  // ------------------- ROMANTIC MEMORY GAME -------------------
   const memorySequenceDiv = document.getElementById("memorySequence");
   const memoryButtonsDiv = document.getElementById("memoryButtons");
   const memoryResult = document.getElementById("memoryResult");
 
   let sequence = [];
   let userSequence = [];
-  const emojis = ["🍎","🍌","🍒","🍇","🍉","🥝"];
+  const emojis = ["❤️","💌","🥰","🌹","💖","💋"];
+  const loveNotes = [
+    "You remembered my ❤️! So sweet 🥰",
+    "Perfect! Our love is in sync 💖",
+    "Amazing! Just like us 💌",
+    "You got it! My heart melts 🥰"
+  ];
 
-  function startMemoryGame() {
+  function startMemoryGame(){
     sequence = [];
     userSequence = [];
     memoryResult.textContent="";
     memoryButtonsDiv.innerHTML="";
 
-    // Generate random sequence of 4 emojis
     for(let i=0;i<4;i++){
       sequence.push(emojis[Math.floor(Math.random()*emojis.length)]);
     }
 
-    // Show sequence for 2 seconds each emoji
     memorySequenceDiv.textContent="";
-    let i = 0;
+    let i=0;
     const interval = setInterval(()=>{
       memorySequenceDiv.textContent = sequence[i];
       i++;
       if(i>=sequence.length){
         clearInterval(interval);
-        memorySequenceDiv.textContent="❓"; // hide after showing
+        memorySequenceDiv.textContent="❓";
         createMemoryButtons();
       }
     }, 1000);
@@ -170,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
     memoryButtonsDiv.innerHTML="";
     const shuffled = [...emojis].sort(()=>0.5-Math.random());
     shuffled.forEach(e=>{
-      const btn = document.createElement("button");
+      const btn=document.createElement("button");
       btn.textContent=e;
       btn.style.fontSize="30px";
       btn.addEventListener("click",()=> handleMemoryClick(e));
@@ -180,14 +183,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function handleMemoryClick(e){
     userSequence.push(e);
-    // show current user input
     memorySequenceDiv.textContent = userSequence.join(" ");
     if(userSequence.length===sequence.length){
       if(userSequence.join("")===sequence.join("")){
-        memoryResult.textContent="🎉 Correct! Well done!";
+        memoryResult.textContent = loveNotes[Math.floor(Math.random()*loveNotes.length)];
         memoryContinueBtn.style.display="inline-block";
-      }else{
-        memoryResult.textContent="❌ Wrong! Try again.";
+      } else {
+        memoryResult.textContent = "❌ Wrong! Try again 💌";
         userSequence = [];
       }
     }

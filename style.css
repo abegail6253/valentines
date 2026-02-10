@@ -216,33 +216,40 @@ ul { text-align: left; margin: 10px auto; max-width: 300px; }
 
 #quizContinueBtn:hover { transform: scale(1.05); background: #ff99b3; }
 
-/* ---------- Mini Games & Scratch-Off Placeholder ---------- */
-#miniPuzzleContainer, #memoryGameContainer, #scratchContainer {
-  margin: 20px auto;
-  width: 100%;
-  max-width: 300px;
-  height: 200px;
-  border-radius: 15px;
-  background: #ffe0e6;
+/* ---------- Mini Games / Memory Game ---------- */
+#memorySequence {
+  font-size: 50px;
+  margin-bottom: 15px;
+  min-height: 60px;
+}
+
+#memoryButtons {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#memoryButtons button {
+  font-size: 30px;
+  padding: 10px 15px;
+  border-radius: 15px;
+  border: none;
+  background: #ffe0e6;
   cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
 }
 
-#miniPuzzleContainer img {
-  width: 100%;
-  border-radius: 10px;
-  object-fit: cover;
+#memoryButtons button:hover {
+  transform: scale(1.1);
+  background: #ffccd5;
 }
 
-/* ---------- Countdown Timer ---------- */
-#countdownTimer {
-  font-size: 24px;
+#memoryResult {
+  margin-top: 15px;
   font-weight: bold;
-  margin: 15px 0;
   color: #ff4d6d;
-  text-shadow: 1px 1px #fff;
 }
 
 /* ---------- Dynamic Floating Hearts / Stars ---------- */
@@ -259,7 +266,7 @@ ul { text-align: left; margin: 10px auto; max-width: 300px; }
   100% { opacity: 0; transform: translateY(-150px) scale(1.3); }
 }
 
-/* ---------- Bonus Screens ---------- */
+/* ---------- Bonus Screens / Memory Photos / Calendar ---------- */
 #photoMemoryContainer {
   display: flex;
   flex-wrap: wrap;
@@ -295,40 +302,3 @@ ul { text-align: left; margin: 10px auto; max-width: 300px; }
 }
 
 #futurePromiseCalendar div:hover { transform: scale(1.1); background: #ff99b3; }
-
-/* ---------- Memory Game ---------- */
-#memorySequence {
-  font-size: 40px;
-  margin-bottom: 15px;
-  min-height: 50px;
-}
-
-#memoryButtons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-#memoryButtons button {
-  font-size: 30px;
-  padding: 10px 15px;
-  border-radius: 15px;
-  border: none;
-  background: #ffe0e6;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
-}
-
-#memoryButtons button:hover {
-  transform: scale(1.1);
-  background: #ffccd5;
-}
-
-#memoryResult {
-  margin-top: 15px;
-  font-weight: bold;
-  color: #ff4d6d;
-}
-
